@@ -1,0 +1,24 @@
+{
+  "name": "PhantBot",
+  "version": "0.10.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "canvas": "^1.6.7",
+    "cheerio": "^1.0.0-rc.2",
+    "discord-spoiler-bot": "^2.0.5",
+    "discord.js": "^11.2.1",
+    "he": "^1.1.1",
+    "node-opus": "^0.2.7",
+    "request": "^2.83.0",
+    "sodium": "^2.0.3",
+    "tumblr.js": "^1.1.1",
+    "uws": "^8.14.1",
+    "watson-developer-cloud": "^2.42.0"
+  }
+}
