@@ -19,6 +19,8 @@ const NaughtyOrNice = require('./libs/naughtyornice.js')
 const Bechdel = require('./libs/bechdeltest.js')
 const Tumblr = require('./libs/tumblr.js')
 
+const Poll = require('./libs/moderation/poll.js')
+
 var prefix,
     client,
     spoilerbot,
@@ -115,6 +117,10 @@ function registerEvents() {
         Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
           message.channel.send(post.replace('l', 'w').replace('r', 'w'))
         })
+      }
+
+      if (msg.startsWith('poll ')) {
+        Poll.startPoll(msg.substring(5), message)
       }
 
 /*      if (msg.startsWith('naughtyornice ')) {
