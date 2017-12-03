@@ -12,12 +12,12 @@ const fs = require('fs');
  * Modules
  **/
 
-const NationalDays = require('./libs/nationaldays.js')
-const Help = require('./libs/help.js')
-const Dictionary = require('./libs/define.js')
-const NaughtyOrNice = require('./libs/naughtyornice.js')
-const Bechdel = require('./libs/bechdeltest.js')
-const Tumblr = require('./libs/tumblr.js')
+const NationalDays = require('./libs/utils/nationaldays.js')
+const Help = require('./libs/utils/help.js')
+const Dictionary = require('./libs/utils/define.js')
+const NaughtyOrNice = require('./libs/utils/naughtyornice.js')
+const Bechdel = require('./libs/utils/bechdeltest.js')
+const Tumblr = require('./libs/utils/tumblr.js')
 
 const Poll = require('./libs/moderation/poll.js')
 
