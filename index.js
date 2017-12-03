@@ -55,11 +55,10 @@ function registerEvents() {
 
   client.on('message', message => {
     if (message.content.toLowerCase().startsWith(prefix)) {
-      let re = new RegExp(`^${prefix}`)
-      let msg = message
-        .content
+      let msg = message.content
         .toLowerCase()
-        .replace(re, '')
+        .substring(prefix.length)
+      let Msg = message.content.substring(prefix.length)
 
       if (msg === 'nationalday') {
         NationalDays.getMessage(
@@ -103,7 +102,7 @@ function registerEvents() {
       }
 
       if (msg.startsWith('cat ')) {
-        message.channel.send(message.content.substring(4 + prefix.length))
+        message.channel.send(Msg.substring(4))
         message.delete()
       }
 
