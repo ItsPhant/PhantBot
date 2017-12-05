@@ -1,13 +1,28 @@
 const fs = require('fs');
 const request = require('request');
 
-exports.search = (query, success, error) => {
+const Help = require('./help.js')
+
+Help.document({
+  name:   'bechdel',
+  use:    'Gets the Bechdel Test score for a movie.',
+  syntax: '<movie>'
+})
+
+exports.send = (message, msg) => {
+  search(msg.substring(8), result => {
+    message.channel.send(result)
+  }, () => {
+    message.channel.send('Error getting movie.') 
+  })
+}
+
+function search(query, success, error) {
   let url = `http://bechdeltest.com/api/v1/getMoviesByTitle?title=${encodeURIComponent(query)}`
 
   request.get({ url:url }, function(err, res, body) {
     if (!err && res.statuscode !== 404) {
-      let movies = `\`\`\`diff
-`
+      let movies = '\`\`\`diff\n'
       JSON.parse(body).forEach((movie) => {
         try {
           movies += `+ ${movie.title}: ${parseRating(movie.rating)}\n`

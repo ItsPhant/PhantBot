@@ -1,16 +1,16 @@
-const commands = {
-  define:        [ 'define', 'Define a word using the Pearson english dictionary.', '<word>' ],
-  help:          [ 'help', 'Display this message, or help for a command.', '[command]' ],
-  nationalday:   [ 'nationalday', 'Display today\'s "National Days".', ''],
-  ping:          [ 'ping', 'Pong!', ''],
-  spoiler:       [ 'spoiler', 'Hide text in a gif (desktop only)', '/o<topic>:spoiler:<content>'],
-  bechdel:       [ 'bechdel', 'Gets the Bechdel Test score for a movie.', '<movie>'],
-  obscuresorrow: [ 'obscuresorrow', 'Get a random entry from the Dictionary of Obscure Sorrows.', ''],
-  cat:           [ '/hcat', 'repeats and deletes original message', '<message>'],
-  default: 'Unknown command'
+var commands = { default: 'Unknown command' }
+
+exports.document = document
+
+function document(entry) {
+  commands[entry.name] = entry
 }
 
-exports.getCommands = () => {
+document({
+  name:   'help',
+  use:    'Display this message, or help for a command.',
+  syntax: '[command]'
+})
   let pjson = require('../package.json')
 
   var list = '\`\`\`\n'
@@ -24,16 +24,16 @@ exports.getCommands = () => {
 function pad(str) {
   let length = 0
 
-  for(const prop in commands)
-    if(commands[prop][0].length > length - 2)
-      length = commands[prop][0].length + 2
+  for(var command in commands)
+    if(commands[command].name.length > length - 2)
+      length = commands[command].name.length + 2
 
   let pad = Array(length).join(' ')
 
   return (str + pad).substring(0, pad.length);
 }
 
-exports.getCommandHelp = (command, config) => {
+function getCommandHelp(command, config) {
   if (Object.keys(commands).includes(command)) {
     let begin = `\`\`\`${commands[command][0]}: ${commands[command][1]}\n\n`
     let end = `usage: ${config.bot.prefix}${commands[command][0]} ${commands[command][2]}\`\`\``
@@ -48,3 +48,5 @@ exports.getCommandHelp = (command, config) => {
     return `${commands.default} ${command}.`
   }
 }
+
+exports.getCommandHelp = getCommandHelp

@@ -1,5 +1,13 @@
-const request = require('request')
-const $ = require('cheerio')
+const request = require('request');
+const $ = require('cheerio');
+
+const Help = require('./help.js')
+
+Help.document({
+  name:   'nationalday',
+  use:    'Display today\'s "National Days".',
+  syntax: ''
+})
 
 const nationalUrl = 'http://nationaldaycalendar.com/latest-posts/'
 

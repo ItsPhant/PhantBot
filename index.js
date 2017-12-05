@@ -12,14 +12,17 @@ const fs = require('fs');
  * Modules
  **/
 
-const NationalDays = require('./libs/utils/nationaldays.js')
-const Help = require('./libs/utils/help.js')
-const Dictionary = require('./libs/utils/define.js')
+const Bechdel       = require('./libs/utils/bechdel.js')
+const Cat           = require('./libs/utils/cat.js')
+const Dictionary    = require('./libs/utils/define.js')
+const Help          = require('./libs/utils/help.js')
+const NationalDays  = require('./libs/utils/nationaldays.js')
 const NaughtyOrNice = require('./libs/utils/naughtyornice.js')
-const Bechdel = require('./libs/utils/bechdeltest.js')
-const Tumblr = require('./libs/utils/tumblr.js')
+const Ping          = require('./libs/utils/ping.js')
+const Tumblr        = require('./libs/utils/tumblr.js')
 
-const Poll = require('./libs/moderation/poll.js')
+const Mute          = require('./libs/moderation/mute.js')
+const Poll          = require('./libs/moderation/poll.js')
 
 var prefix,
     client,
@@ -77,9 +80,9 @@ function registerEvents() {
           msg.substring(5), config))
       }
 
-      if (msg === 'ping') {
-        message.channel.send(`pong! (${client.ping}ms)`)
-      }
+    if (msg.startsWith('bechdel')) {
+      Bechdel.send(message, msg)
+    }
 
       if (msg === 'spoiler') {
         message.channel.send('```\n<topic>:spoiler:<content>\n```')
@@ -106,33 +109,35 @@ function registerEvents() {
         message.delete()
       }
 
-      if (msg.startsWith('obscuresorrow')) {
-        Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
-          message.channel.send(post)
-        })
-      }
-
-      if (msg.startsWith('obscuresowwow')) {
-        Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
-          message.channel.send(post.replace('l', 'w').replace('r', 'w'))
-        })
-      }
-
-      if (msg.startsWith('poll ')) {
-        Poll.startPoll(msg.substring(5), message)
-      }
-
-/*      if (msg.startsWith('naughtyornice ')) {
-        let re = new RegExp('^naughtyornice <@!([0-9]+)>')
-        console.log("\nMessage:")
-        console.log(msg)
-        console.log("Matched:")
-        console.log(re.exec(msg))
-        console.log()
-        message.channel.send(
-          NaughtyOrNice.getInsights(message.guild,
-                                    re.exec(msg)[1]))
-      }*/
+    if (msg.startsWith('obscuresorrow')) {
+      Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+        message.channel.send(post)
+      })
     }
-  })
+
+    if (msg.startsWith('obscuwesowwow')) {
+      Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+        message.channel.send(post.replace('l', 'w').replace('r', 'w'))
+      })
+    }
+
+    if (msg === 'ping') {
+      Ping.send(message)
+    }
+
+    if (msg.startsWith('poll ')) {
+      Poll.startPoll(msg.substring(5), message)
+    }
+  /*if (msg.startsWith('naughtyornice ')) {
+      let re = new RegExp('^naughtyornice <@!([0-9]+)>')
+      console.log("\nMessage:")
+      console.log(msg)
+      console.log("Matched:")
+      console.log(re.exec(msg))
+      console.log()
+      message.channel.send(
+        NaughtyOrNice.getInsights(message.guild,
+                                  re.exec(msg)[1]))
+    }*/
+  }
 }
