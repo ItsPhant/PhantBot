@@ -56,58 +56,35 @@ function registerEvents() {
     })
   })
 
-  client.on('message', message => {
-    if (message.content.toLowerCase().startsWith(prefix)) {
-      let msg = message.content
-        .toLowerCase()
-        .substring(prefix.length)
-      let Msg = message.content.substring(prefix.length)
+  client.on('message', message => parseMessage(message))
+}
 
-      if (msg === 'nationalday') {
-        NationalDays.getMessage(
-          days => {
-            message.channel.send(days)
-          }, () => {
-            message.channel.send('Error getting national days.')
-          }
-        )
-      }
-
-      if (msg === 'help') {
-        message.channel.send(Help.getCommands())
-      } else if (msg.trim().startsWith('help')) {
-        message.channel.send(Help.getCommandHelp(
-          msg.substring(5), config))
-      }
+function parseMessage(message) {
+  if (message.content.toLowerCase().startsWith(prefix)) {
+    let msg = message.content
+      .toLowerCase()
+      .substring(prefix.length)
+    let Msg = message.content.substring(prefix.length)
 
     if (msg.startsWith('bechdel')) {
       Bechdel.send(message, msg)
     }
 
-      if (msg === 'spoiler') {
-        message.channel.send('```\n<topic>:spoiler:<content>\n```')
-      }
+    if (msg.startsWith('cat')) {
+      Cat.send(Msg, message)
+    }
 
-      if (msg.startsWith('define ')) {
-        Dictionary.define(msg.substring(7), definition => {
-          message.channel.send(definition)
-        }, () => {
-          message.channel.send('Error getting definition.') 
-        })
-      }
+    if (msg.startsWith('define')) {
+      Define.send(msg, message)
+    }
 
-      if (msg.startsWith('bechdel ')) {
-        Bechdel.search(msg.substring(8), result => {
-          message.channel.send(result)
-        }, () => {
-          message.channel.send('Error getting movie.') 
-        })
-      }
+    if (msg.startsWith('help')) {
+      Help.send(message, msg, config)
+    }
 
-      if (msg.startsWith('cat ')) {
-        message.channel.send(Msg.substring(4))
-        message.delete()
-      }
+    if (msg === 'nationalday') {
+      NationalDays.send(message)
+    }
 
     if (msg.startsWith('obscuresorrow')) {
       Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
@@ -128,6 +105,11 @@ function registerEvents() {
     if (msg.startsWith('poll ')) {
       Poll.startPoll(msg.substring(5), message)
     }
+
+    if (msg === 'spoiler') {
+      Spoiler.send(message)
+    }
+
   /*if (msg.startsWith('naughtyornice ')) {
       let re = new RegExp('^naughtyornice <@!([0-9]+)>')
       console.log("\nMessage:")

@@ -38,6 +38,8 @@ exports.startPoll = (command, message) => {
 
 **result**: ${tallies.yea.length > tallies.nay.length ? ':thumbsup:' : ':thumbsdown:'}`)
         message.delete(1000)
+
+        parseMessage(command)
       })
     })
 }

@@ -11,6 +11,16 @@ document({
   use:    'Display this message, or help for a command.',
   syntax: '[command]'
 })
+
+exports.send = (message, msg, config) => {
+  if (msg === 'help') {
+    message.channel.send(getCommands())
+  } else {
+    message.channel.send(getCommandHelp(msg.substring(5), config))
+  }
+}
+
+function getCommands() {
   let pjson = require('../package.json')
 
   var list = '\`\`\`\n'
@@ -20,6 +30,8 @@ document({
   })
   return list + `\nPhantBot Version ${pjson.version}\n\`\`\``
 }
+
+exports.getCommands = getCommands
 
 function pad(str) {
   let length = 0
