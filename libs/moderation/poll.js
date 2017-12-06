@@ -8,38 +8,45 @@ exports.startPoll = (command, message) => {
       )
 
       let tallies = { yea: [], nay: [] }
-      reacts.on('collect', r => {
-        r.users.forEach(user => {
-          if (user.id !== message.author.id) {
-            r.remove(user.id)
-            if (r.emoji.name === '👍') {
-              if (!tallies.yea.includes(user.id)) {
-                if (tallies.nay.includes(user.id)) {
-                  tallies.nay = tallies.nay.filter(x => x!== user.id)
-                }
-                tallies.yea.push(user.id)
-              }
-            } else if (r.emoji.name === '👎') {
-              if (!tallies.nay.includes(user.id)) {
-                if (tallies.yea.includes(user.id)) {
-                  tallies.yea = tallies.yea.filter(x => x !== user.id)
-                }
-                tallies.nay.push(user.id)
-              }
-            }
-          }
-        })
-      })
-
-      reacts.on('end', collected => {
-        message.channel.send(`:thumbsup:: ${tallies.yea.length}
-
-:thumbsdown:: ${tallies.nay.length}
-
-**result**: ${tallies.yea.length > tallies.nay.length ? ':thumbsup:' : ':thumbsdown:'}`)
-        message.delete(1000)
-
-        parseMessage(command)
-      })
+      reacts.on('collect', react => collectEmoji(react, message.author))
+      reacts.on('end', collected => endPoll(collected))
     })
+}
+
+function collectEmoji(react, author) {
+  react.users.forEach(user => {
+    if (user.id !== author.id) {
+      react.remove(user.id)
+      if (react.emoji.name === '👍') {
+        tallyEmoji(tallies, 'yea', 'nay', user.id)
+      } else if (react.emoji.name === '👎') {
+        tallyEmoji(tallies, 'nay', 'yea', user.id)
+      }
+    }
+  })
+}
+
+function endPoll(collected) {
+  message.channel.send(
+    `:thumbsup:: ${tallies.yea.length}\n\n` +
+    `:thumbsdown:: ${tallies.nay.length}\n\n` +
+    `**result**: ${getResult(tallies.yea, tallies.nay)}`)
+
+  parseMessage(command)
+}
+
+function getResult(a, b) {
+  if (a.length > b.length)
+    return ':thumbsup:'
+  else
+    return ':thumbsdown:'
+}
+
+function tallyEmoji(tallies, a, b, id) {
+  if (!tallies[a]includes(id)) {
+    if (tallies[b]includes(id)) {
+      tallies[b] = tallies[b].filter(x => x !== id)
+    }
+    tallies[a].push(id)
+  }
 }
