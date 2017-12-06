@@ -4,7 +4,8 @@
   "description": "Bot for Discord",
   "main": "index.js",
   "scripts": {
-    "start": "firejail node index.js",
+    "start": "node index.js",
+    "firejail": "firejail node index.js",
     "test": "mocha --recursive"
   },
   "author": "Ellie Phant <itsphant@gmail.com>",
