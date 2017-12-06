@@ -1,27 +1,9 @@
-const request = require('request');
-const $ = require('cheerio');
-
-const Help = require('./help.js')
-
-Help.document({
-  name:   'nationalday',
-  use:    'Display today\'s "National Days".',
-  syntax: ''
-})
+const request = require('request')
+const $ = require('cheerio')
 
 const nationalUrl = 'http://nationaldaycalendar.com/latest-posts/'
 
-exports.send = message => {
-  getMessage(
-    days => {
-      message.channel.send(days)
-    }, () => {
-      message.channel.send('Error getting national days.')
-    }
-  )
-}
-
-function getMessage(success, failure) {
+exports.getMessage = (success, failure) => {
   request(nationalUrl, function(err, res, body) {
     if (!err && res.statusCode == 200) {
       var today = $('.post', body).first()
