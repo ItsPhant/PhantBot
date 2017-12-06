@@ -1,7 +1,7 @@
 var PersonalityInsightsV3 = require('watson-developer-cloud/personality-insights/v3');
 
 var personality_insights = new PersonalityInsightsV3(
-  require('../../config.json').bot.watsonDeveloperCloud)
+  require('../config.json').bot.watsonDeveloperCloud)
 
 exports.getInsights = (guild, userID) => {
   guild.channels.forEach((value, key, map) => {

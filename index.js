@@ -12,17 +12,12 @@ const fs = require('fs');
  * Modules
  **/
 
-const Bechdel       = require('./libs/utils/bechdel.js')
-const Cat           = require('./libs/utils/cat.js')
-const Dictionary    = require('./libs/utils/define.js')
-const Help          = require('./libs/utils/help.js')
-const NationalDays  = require('./libs/utils/nationaldays.js')
-const NaughtyOrNice = require('./libs/utils/naughtyornice.js')
-const Ping          = require('./libs/utils/ping.js')
-const Tumblr        = require('./libs/utils/tumblr.js')
-
-const Mute          = require('./libs/moderation/mute.js')
-const Poll          = require('./libs/moderation/poll.js')
+const NationalDays = require('./libs/nationaldays.js')
+const Help = require('./libs/help.js')
+const Dictionary = require('./libs/define.js')
+const NaughtyOrNice = require('./libs/naughtyornice.js')
+const Bechdel = require('./libs/bechdeltest.js')
+const Tumblr = require('./libs/tumblr.js')
 
 var prefix,
     client,
@@ -56,76 +51,83 @@ function registerEvents() {
     })
   })
 
-  client.on('message', message => parseMessage(message))
-}
+  client.on('message', message => {
+    if (message.content.toLowerCase().startsWith(prefix)) {
+      let re = new RegExp(`^${prefix}`)
+      let msg = message
+        .content
+        .toLowerCase()
+        .replace(re, '')
 
-var commands = {
-  'bechdel': {
-    process: function(message, suffix) {
-      Bechdel.send(message, suffix)
-    }
-  },
-  'cat': {
-    process: function(message, suffix) {
-      Cat.send(message, suffix)
-    }
-  },
-  'define': {
-    process: function(message, suffix) {
-      Define.send(msg, message)
-    }
-  },
-  'help': {
-    process: function(message, suffix, config) {
-      Help.send(message, msg, config)
-    }
-  },
-  'nationalday': {
-    process: function(message) {
-      NationalDays.send(message)
-    }
-  },
-  'obscuresorrow': {
-    process: function(message) {
-      Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
-        message.channel.send(post)
-      })
-    }
-  },
-  'obscuwesowwow': {
-    process: function(message) {
-      Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
-        message.channel.send(post.replace('l', 'w').replace('r', 'w'))
-      })
-    }
-  },
-  'ping': {
-    process: function(message) {
-      Ping.send(message)
-    }
-  },
-  'poll': {
-    process: function(message, suffix) {
-      Poll.startPoll(message, suffix.substring(5))
-    }
-  },
-  'spoiler': {
-    process: function(message) {
-      Spoiler.send(message)
-    }
-  }
-}
+      if (msg === 'nationalday') {
+        NationalDays.getMessage(
+          days => {
+            message.channel.send(days)
+          }, () => {
+            message.channel.send('Error getting national days.')
+          }
+        )
+      }
 
-function parseMessage(message) {
-  let msg = message.content
-    .toLowerCase()
-    .substring(prefix.length)
-  let Msg = message.content.substring(prefix.length)
+      if (msg === 'help') {
+        message.channel.send(Help.getCommands())
+      } else if (msg.trim().startsWith('help')) {
+        message.channel.send(Help.getCommandHelp(
+          msg.substring(5), config))
+      }
 
-  if (msg.startsWith(prefix)) {
-    let suffix = msg.split(' ')[0].substring(prefix.length)
+      if (msg === 'ping') {
+        message.channel.send(`pong! (${client.ping}ms)`)
+      }
 
-    if (commands[suffix])
-      commands[suffix].process(message, suffix, config)
-  }
+      if (msg === 'spoiler') {
+        message.channel.send('```\n<topic>:spoiler:<content>\n```')
+      }
+
+      if (msg.startsWith('define ')) {
+        Dictionary.define(msg.substring(7), definition => {
+          message.channel.send(definition)
+        }, () => {
+          message.channel.send('Error getting definition.') 
+        })
+      }
+
+      if (msg.startsWith('bechdel ')) {
+        Bechdel.search(msg.substring(8), result => {
+          message.channel.send(result)
+        }, () => {
+          message.channel.send('Error getting movie.') 
+        })
+      }
+
+      if (msg.startsWith('cat ')) {
+        message.channel.send(message.content.substring(4 + prefix.length))
+        message.delete()
+      }
+
+      if (msg.startsWith('obscuresorrow')) {
+        Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+          message.channel.send(post)
+        })
+      }
+
+      if (msg.startsWith('obscuresowwow')) {
+        Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+          message.channel.send(post.replace('l', 'w').replace('r', 'w'))
+        })
+      }
+
+/*      if (msg.startsWith('naughtyornice ')) {
+        let re = new RegExp('^naughtyornice <@!([0-9]+)>')
+        console.log("\nMessage:")
+        console.log(msg)
+        console.log("Matched:")
+        console.log(re.exec(msg))
+        console.log()
+        message.channel.send(
+          NaughtyOrNice.getInsights(message.guild,
+                                    re.exec(msg)[1]))
+      }*/
+    }
+  })
 }

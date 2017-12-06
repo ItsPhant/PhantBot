@@ -1,31 +1,19 @@
 const request = require('request');
 
-const Help = require('./help.js')
-
-Help.document({
-  name:   'define',
-  use:    'Define a word using the Pearson english dictionary.',
-  syntax: '<word>'
-})
-
 let baseurl = 'http://api.pearson.com/v2/dictionaries/entries?headword='
 
-//word success failure
-exports.send = (message, suffix) => {
-
-  let word = suffix.substring(7).trim()
-
+exports.define = (word, success, failure) => {
   request.get(
-    { url:encodeURI(baseurl + encodeURIComponent(word)) },
+    { url:encodeURI(baseurl + encodeURIComponent(word.trim())) },
     function(err, res, body) {
     if(!err & res.statusCode == 200) {
       try {
-        return message.channel.send(parseBody(body))
+        return success(parseBody(body))
       } catch (e) {
-        return message.channel.send('Error getting definition.')
+        return failure(404)
       }
     } else {
-      return message.channel.send('Error getting definition.')
+      return failure(res.statusCode)
     }
   })
 }
@@ -41,18 +29,6 @@ function applySentenceCase(str) {
   })
 }
 
-//https://stackoverflow.com/a/19544945
-function firstOrDefault(obj, d) { 
-  for (var i in obj)
-  {
-    if (obj.hasOwnProperty(i))
-    {
-      return obj[i]
-    }
-  }
-  return d
-}
-
 function parseBody(body) {
   let definition = JSON.parse(body)
     .results[0]
@@ -63,4 +39,16 @@ function parseBody(body) {
     return applySentenceCase(definition)
   else
     return applySentenceCase(firstOrDefault(definition))
+}
+
+//https://stackoverflow.com/a/19544945
+var firstOrDefault = function(obj, d) { 
+  for (var i in obj)
+  {
+    if (obj.hasOwnProperty(i))
+    {
+      return obj[i]
+    }
+  }
+  return d
 }
