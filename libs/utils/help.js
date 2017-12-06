@@ -1,10 +1,12 @@
-var commands = { default: 'Unknown command' }
+const config = require('../../config.json')
 
-exports.document = document
+var commands = { default: 'Unknown command' }
 
 function document(entry) {
   commands[entry.name] = entry
 }
+
+exports.document = document
 
 document({
   name:   'help',
@@ -12,22 +14,29 @@ document({
   syntax: '[command]'
 })
 
-exports.send = (message, msg, config) => {
-  if (msg === 'help') {
-    message.channel.send(getCommands())
-  } else {
-    message.channel.send(getCommandHelp(msg.substring(5), config))
-  }
+exports.send = (message, msg) => {
+  message.channel.send(parseMessage(msg))
 }
 
+function parseMessage(message) {
+  if (message === 'help')
+    return getCommands()
+  else
+    return getCommandHelp(message.substring(5), config)
+}
+
+exports.parseMessage = parseMessage
+
 function getCommands() {
-  let pjson = require('../package.json')
+  let pjson = require('../../package.json')
 
   var list = '\`\`\`\n'
-  Object.keys(commands).sort().forEach((element) => {
-    if(element !== 'default' && !commands[element][0].startsWith('/h'))
-      list += `${pad(commands[element][0]+':')} ${commands[element][1]}\n`
-  })
+  for(var c in commands) {
+    if(c !== 'default' && !commands[c].name.startsWith('/h'))
+      list += `${pad(commands[c].name+':')}` +
+              ` ${commands[c].use}\n`
+  }
+
   return list + `\nPhantBot Version ${pjson.version}\n\`\`\``
 }
 
@@ -36,28 +45,35 @@ exports.getCommands = getCommands
 function pad(str) {
   let length = 0
 
-  for(var command in commands)
-    if(commands[command].name.length > length - 2)
-      length = commands[command].name.length + 2
+  for(var c in commands)
+    if(c !== 'default' &&
+       commands[c].name.length > length - 2)
+      length = commands[c].name.length + 2
 
   let pad = Array(length).join(' ')
 
   return (str + pad).substring(0, pad.length);
 }
 
-function getCommandHelp(command, config) {
-  if (Object.keys(commands).includes(command)) {
-    let begin = `\`\`\`${commands[command][0]}: ${commands[command][1]}\n\n`
-    let end = `usage: ${config.bot.prefix}${commands[command][0]} ${commands[command][2]}\`\`\``
+exports.pad = pad
 
-    if (commands[command][2].startsWith('/o'))
-      return begin + `usage: ${commands[command][2].substring(2)}\`\`\``
-    else if (commands[command][0].startsWith('/h'))
-      return `\`\`\`${commands[command][0].substring(2)}: ${commands[command][1]}\n\n${end}`
+function getCommandHelp(c, config) {
+  if (Object.keys(commands).includes(c)) {
+    let begin = `\`\`\`${commands[c].name}:` +
+                ` ${commands[c].use}\n\n`
+    let end = `usage: ${config.bot.prefix}${commands[c].name}` +
+              ` ${commands[c].syntax}\`\`\``
+
+    if (commands[c].syntax.startsWith('/o'))
+      return begin + 
+        `usage: ${commands[c].syntax.substring(2)}\`\`\``
+    else if (commands[c].name.startsWith('/h'))
+      return `\`\`\`${commands[c].name.substring(2)}:` +
+             ` ${commands[c].use}\n\n${end}`
     else
       return begin + end
   } else {
-    return `${commands.default} ${command}.`
+    return `${commands.default} ${c}.`
   }
 }
 
