@@ -9,11 +9,16 @@ Help.document({
   syntax: '<movie>'
 })
 
-exports.send = (message, suffix) => {
+exports.send = (message, suffix, cb) => {
+  if (!cb)
+    cb = () => { return }
+
   search(suffix.substring(8), result => {
     message.channel.send(result)
+    cb()
   }, () => {
-    message.channel.send('Error getting movie.') 
+    message.channel.send('Error getting movie.')
+    cb()
   })
 }
 

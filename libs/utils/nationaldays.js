@@ -11,12 +11,14 @@ Help.document({
 
 const nationalUrl = 'http://nationaldaycalendar.com/latest-posts/'
 
-exports.send = message => {
+exports.send = (message, cb) => {
+  if (!cb)
+    cb = () => { return }
   getMessage(
     days => {
-      message.channel.send(days)
+      cb(message.channel.send(days))
     }, () => {
-      message.channel.send('Error getting national days.')
+      cb(message.channel.send('Error getting national days.'))
     }
   )
 }

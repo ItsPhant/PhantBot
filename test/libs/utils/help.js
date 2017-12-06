@@ -2,11 +2,20 @@ var assert = require('assert');
 var config = require('../../../config.json')
 var Help = require('../../../libs/utils/help.js')
 
+var message = {
+  result: "",
+  channel: {
+    send: function(contents) {
+      message.result = contents
+    }
+  }
+}
+
 describe('Help', function() {
-  describe('#parseMessage()', function() {
+  describe('#send()', function() {
     it('when not given a command', function() {
-      console.log(Help.parseMessage('help'))
-      assert.ok(Help.parseMessage('help').includes(
+      Help.send(message, 'help')
+      assert.ok(message.result.includes(
         Help.pad('help:') + ' Display this message, or help for a command.'
       ))
     })
@@ -19,9 +28,10 @@ describe('Help', function() {
 
       Help.document(test)
 
+      Help.send(message, 'help test')
       assert.equal(`\`\`\`${test.name}: ${test.use}\n\n` +
                    `usage: ${config.bot.prefix + test.name} \`\`\``,
-                   Help.parseMessage('help test'))
+                   message.result)
     })
   })
 })

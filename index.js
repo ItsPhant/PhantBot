@@ -101,7 +101,7 @@ var commands = {
   },
   'ping': {
     process: function(message) {
-      Ping.send(message)
+      Ping.send(message, client)
     }
   },
   'poll': {

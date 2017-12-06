@@ -6,6 +6,6 @@ Help.document({
   syntax: ''
 })
 
-exports.send = message => {
+exports.send = (message, client) => {
   message.channel.send(`pong! (${client.ping}ms)`)
 }
