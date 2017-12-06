@@ -9,8 +9,8 @@ Help.document({
   syntax: '<movie>'
 })
 
-exports.send = (message, msg) => {
-  search(msg.substring(8), result => {
+exports.send = (message, suffix) => {
+  search(suffix.substring(8), result => {
     message.channel.send(result)
   }, () => {
     message.channel.send('Error getting movie.') 

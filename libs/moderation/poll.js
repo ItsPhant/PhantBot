@@ -1,5 +1,5 @@
-exports.startPoll = (command, message) => {
-  message.channel.send(`**Execute ${command}?**`)
+exports.startPoll = (message, suffix) => {
+  message.channel.send(`**Execute ${suffix}?**`)
     .then(message => {
       message.react('👍').then(() => message.react('👎'))
       let reacts = message.createReactionCollector(
@@ -26,13 +26,13 @@ function collectEmoji(react, author) {
   })
 }
 
-function endPoll(collected) {
+function endPoll(collected, suffix) {
   message.channel.send(
     `:thumbsup:: ${tallies.yea.length}\n\n` +
     `:thumbsdown:: ${tallies.nay.length}\n\n` +
     `**result**: ${getResult(tallies.yea, tallies.nay)}`)
 
-  parseMessage(command)
+  parseMessage(suffix)
 }
 
 function getResult(a, b) {

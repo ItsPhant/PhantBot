@@ -14,8 +14,8 @@ document({
   syntax: '[command]'
 })
 
-exports.send = (message, msg) => {
-  message.channel.send(parseMessage(msg))
+exports.send = (message, suffix) => {
+  message.channel.send(parseMessage(suffix))
 }
 
 function parseMessage(message) {

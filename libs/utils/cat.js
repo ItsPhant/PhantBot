@@ -6,7 +6,7 @@ Help.document({
   syntax: '<message>'
 })
 
-exports.send = (Msg, message) => {
-  message.channel.send(Msg.substring(4))
+exports.send = (message, suffix) => {
+  message.channel.send(suffix.substring(4))
   message.delete()
 }

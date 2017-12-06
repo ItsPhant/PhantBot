@@ -11,9 +11,9 @@ Help.document({
 let baseurl = 'http://api.pearson.com/v2/dictionaries/entries?headword='
 
 //word success failure
-exports.send = (msg, message) => {
+exports.send = (message, suffix) => {
 
-  let word = msg.substring(7).trim()
+  let word = suffix.substring(7).trim()
 
   request.get(
     { url:encodeURI(baseurl + encodeURIComponent(word)) },

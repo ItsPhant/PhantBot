@@ -59,67 +59,73 @@ function registerEvents() {
   client.on('message', message => parseMessage(message))
 }
 
-function parseMessage(message) {
-  if (message.content.toLowerCase().startsWith(prefix)) {
-    let msg = message.content
-      .toLowerCase()
-      .substring(prefix.length)
-    let Msg = message.content.substring(prefix.length)
-
-    if (msg.startsWith('bechdel')) {
-      Bechdel.send(message, msg)
+var commands = {
+  'bechdel': {
+    process: function(message, suffix) {
+      Bechdel.send(message, suffix)
     }
-
-    if (msg.startsWith('cat')) {
-      Cat.send(Msg, message)
+  },
+  'cat': {
+    process: function(message, suffix) {
+      Cat.send(message, suffix)
     }
-
-    if (msg.startsWith('define')) {
+  },
+  'define': {
+    process: function(message, suffix) {
       Define.send(msg, message)
     }
-
-    if (msg.startsWith('help')) {
+  },
+  'help': {
+    process: function(message, suffix, config) {
       Help.send(message, msg, config)
     }
-
-    if (msg === 'nationalday') {
+  },
+  'nationalday': {
+    process: function(message) {
       NationalDays.send(message)
     }
-
-    if (msg.startsWith('obscuresorrow')) {
+  },
+  'obscuresorrow': {
+    process: function(message) {
       Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
         message.channel.send(post)
       })
     }
-
-    if (msg.startsWith('obscuwesowwow')) {
+  },
+  'obscuwesowwow': {
+    process: function(message) {
       Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
         message.channel.send(post.replace('l', 'w').replace('r', 'w'))
       })
     }
-
-    if (msg === 'ping') {
+  },
+  'ping': {
+    process: function(message) {
       Ping.send(message)
     }
-
-    if (msg.startsWith('poll ')) {
-      Poll.startPoll(msg.substring(5), message)
+  },
+  'poll': {
+    process: function(message, suffix) {
+      Poll.startPoll(message, suffix.substring(5))
     }
-
-    if (msg === 'spoiler') {
+  },
+  'spoiler': {
+    process: function(message) {
       Spoiler.send(message)
     }
+  }
+}
 
-  /*if (msg.startsWith('naughtyornice ')) {
-      let re = new RegExp('^naughtyornice <@!([0-9]+)>')
-      console.log("\nMessage:")
-      console.log(msg)
-      console.log("Matched:")
-      console.log(re.exec(msg))
-      console.log()
-      message.channel.send(
-        NaughtyOrNice.getInsights(message.guild,
-                                  re.exec(msg)[1]))
-    }*/
+function parseMessage(message) {
+  let msg = message.content
+    .toLowerCase()
+    .substring(prefix.length)
+  let Msg = message.content.substring(prefix.length)
+
+  if (msg.startsWith(prefix)) {
+    let suffix = msg.split(' ')[0].substring(prefix.length)
+
+    if (commands[suffix])
+      commands[suffix].process(message, suffix, config)
   }
 }
