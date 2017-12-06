@@ -25,8 +25,6 @@ function parseMessage(message) {
     return getCommandHelp(message.substring(5), config)
 }
 
-exports.parseMessage = parseMessage
-
 function getCommands() {
   let pjson = require('../../package.json')
 
@@ -39,8 +37,6 @@ function getCommands() {
 
   return list + `\nPhantBot Version ${pjson.version}\n\`\`\``
 }
-
-exports.getCommands = getCommands
 
 function pad(str) {
   let length = 0
@@ -76,5 +72,3 @@ function getCommandHelp(c, config) {
     return `${commands.default} ${c}.`
   }
 }
-
-exports.getCommandHelp = getCommandHelp
