@@ -15,14 +15,10 @@ document({
 })
 
 exports.send = (message, suffix) => {
-  message.channel.send(parseMessage(suffix))
-}
-
-function parseMessage(message) {
-  if (message === 'help')
-    return getCommands()
+  if (suffix === 'help')
+    message.channel.send(getCommands())
   else
-    return getCommandHelp(message.substring(5), config)
+    message.channel.send(getCommandHelp(suffix.substring(5), config))
 }
 
 function getCommands() {
@@ -30,7 +26,7 @@ function getCommands() {
 
   var list = '\`\`\`\n'
   for(var c in commands) {
-    if(c !== 'default' && !commands[c].name.startsWith('/h'))
+    if(c !== 'default' && !commands[c].hidden)
       list += `${pad(commands[c].name+':')}` +
               ` ${commands[c].use}\n`
   }
@@ -60,12 +56,9 @@ function getCommandHelp(c, config) {
     let end = `usage: ${config.bot.prefix}${commands[c].name}` +
               ` ${commands[c].syntax}\`\`\``
 
-    if (commands[c].syntax.startsWith('/o'))
+    if (commands[c].onlySyntax)
       return begin + 
-        `usage: ${commands[c].syntax.substring(2)}\`\`\``
-    else if (commands[c].name.startsWith('/h'))
-      return `\`\`\`${commands[c].name.substring(2)}:` +
-             ` ${commands[c].use}\n\n${end}`
+        `usage: ${commands[c].syntax}\`\`\``
     else
       return begin + end
   } else {

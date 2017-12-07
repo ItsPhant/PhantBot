@@ -5,15 +5,16 @@ var config = require('../../config.json')
 const Help = require('./help.js')
 
 Help.document({
-    name:   'obscuresorrow',
-    use:    'Get a random entry from the Dictionary of Obscure Sorrows.',
-    syntax: ''
+  name:   'obscuresorrow',
+  use:    'Get a random entry from the Dictionary of Obscure Sorrows.',
+  syntax: ''
 })
 
 Help.document({
-    name:   '/hobscuwesowwow',
-    use:    'Get a wandom entwy fwom the Dictionawy of Obscuwe Sowwows.',
-    syntax: ''
+  name:   'obscuwesowwow',
+  use:    'Get a wandom entwy fwom the Dictionawy of Obscuwe Sowwows.',
+  syntax: '',
+  hidden: true
 })
 
 var client = tumblr.createClient({

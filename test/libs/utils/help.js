@@ -33,5 +33,24 @@ describe('Help', function() {
                    `usage: ${config.bot.prefix + test.name} \`\`\``,
                    message.result)
     })
+    it('when given an invalid command', function() {
+      Help.send(message, 'help foo')
+      assert.equal(message.result, 'Unknown command foo.')
+    })
+    it('when given a syntax based command', function() {
+      test = {
+        name:   'foo',
+        use:    'bar',
+        syntax: 'baz',
+        onlySyntax: true
+      }
+
+      Help.document(test)
+      Help.send(message, 'help foo')
+
+      assert.equal(`\`\`\`${test.name}:` +
+                   ` ${test.use}\n\n` +
+                   `usage: ${test.syntax}\`\`\``, message.result)
+    })
   })
 })
