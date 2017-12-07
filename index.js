@@ -13,6 +13,7 @@ const fs = require('fs');
  **/
 
 const Bechdel       = require('./libs/utils/bechdel.js')
+const Captcha       = require('./libs/utils/captcha.js')
 const Cat           = require('./libs/utils/cat.js')
 const Dictionary    = require('./libs/utils/define.js')
 const Help          = require('./libs/utils/help.js')
@@ -47,7 +48,8 @@ fs.readFile('./config.json', 'utf8', function(err, data) {
 
 function registerEvents() {
   client.on('ready', function() {
-    console.log('Logged in as %s - %s\n', client.user.username, client.user.id)
+    console.log(
+      `Logged in as ${client.user.username} - ${client.user.id}\n`)
     client.user.setPresence({
       game: {
         name: `${prefix.toUpperCase()}help`,
@@ -72,12 +74,12 @@ var commands = {
   },
   'define': {
     process: function(message, suffix) {
-      Define.send(msg, message)
+      Define.send(message, suffix)
     }
   },
   'help': {
-    process: function(message, suffix, config) {
-      Help.send(message, msg, config)
+    process: function(message, suffix) {
+      Help.send(message, suffix)
     }
   },
   'nationalday': {
@@ -95,7 +97,7 @@ var commands = {
   'obscuwesowwow': {
     process: function(message) {
       Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
-        message.channel.send(post.replace('l', 'w').replace('r', 'w'))
+        message.channel.send(post.replace(/([lr])/gi, 'w'))
       })
     }
   },
@@ -117,15 +119,11 @@ var commands = {
 }
 
 function parseMessage(message) {
-  let msg = message.content
-    .toLowerCase()
-    .substring(prefix.length)
-  let Msg = message.content.substring(prefix.length)
+  if (message.content.startsWith(prefix)) {
+    let msg = message.content.toLowerCase().substring(prefix.length)
+    let cmd = message.content.split(' ')[0].substring(prefix.length)
 
-  if (msg.startsWith(prefix)) {
-    let suffix = msg.split(' ')[0].substring(prefix.length)
-
-    if (commands[suffix])
-      commands[suffix].process(message, suffix, config)
+    if (commands[cmd])
+      commands[cmd].process(message, msg, config)
   }
 }
