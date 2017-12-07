@@ -43,8 +43,8 @@ function getResult(a, b) {
 }
 
 function tallyEmoji(tallies, a, b, id) {
-  if (!tallies[a]includes(id)) {
-    if (tallies[b]includes(id)) {
+  if (!tallies[a].includes(id)) {
+    if (tallies[b].includes(id)) {
       tallies[b] = tallies[b].filter(x => x !== id)
     }
     tallies[a].push(id)
