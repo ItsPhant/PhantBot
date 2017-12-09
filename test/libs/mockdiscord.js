@@ -39,5 +39,7 @@ class Channel {
 }
 
 module.exports = {
-  Message: Message
+  Message: Message,
+  Channel: Channel,
+  User: User
 }
