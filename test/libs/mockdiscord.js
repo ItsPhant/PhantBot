@@ -21,7 +21,7 @@ class User {
     if (id !== undefined)
       this.id = id
     else
-      this.id = "1234567890"
+      this.id = '1234567890'
   }
 }
 
@@ -33,12 +33,12 @@ class Channel {
     if (id !== undefined)
       this.id = id
     else
-      this.id = "123456789"
+      this.id = '123456789'
 
     if (name !== undefined)
       this.name = name
     else
-      this.name = "Mock Channel"
+      this.name = 'Mock Channel'
     this.result = '' 
   }
 

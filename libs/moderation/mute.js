@@ -10,10 +10,10 @@ exports.muteUser = message => {
       if (value.name === 'mute' || value.name === 'muted') {
         guild.members.get(id).addRole(key)
       } else {
-        message.channel.send("Unable to find mute role (incorrect name).")
+        message.channel.send('Unable to find mute role (incorrect name).')
       }
     })
   } else {
-    message.channel.send("No user was mentioned.")
+    message.channel.send('No user was mentioned.')
   }
 }

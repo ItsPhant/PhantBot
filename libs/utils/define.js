@@ -41,7 +41,7 @@ exports.send = (message, suffix) => {
  */
 function applySentenceCase(str) {
   if (!str)
-    return "Error parsing string."
+    return 'Error parsing string.'
 
   var rg = /(^\w{1}|\.\s*\w{1})/gi
   return str.replace(rg, function(toReplace) {
