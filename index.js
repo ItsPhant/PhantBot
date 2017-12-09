@@ -69,7 +69,7 @@ function registerEvents() {
  * List of commands to evaluate.
  */
 var commands = {
-  'bechdel': {
+  bechdel: {
     /**
      * Processes bechdel test command
      * @see Bechdel#send()
@@ -78,7 +78,7 @@ var commands = {
       Bechdel.send(message, suffix)
     }
   },
-  'cat': {
+  cat: {
     /**
      * Processes cat command
      * @see Cat#send()
@@ -87,7 +87,7 @@ var commands = {
       Cat.send(message, suffix)
     }
   },
-  'captcha': {
+  captcha: {
     /**
      * Processes captcha command
      * @see Captcha#send()
@@ -96,7 +96,7 @@ var commands = {
       Captcha.send(message, client)
     }
   },
-  'define': {
+  define: {
     /**
      * Processes define command
      * @see Define#send()
@@ -105,7 +105,7 @@ var commands = {
       Define.send(message, suffix)
     }
   },
-  'help': {
+  help: {
     /**
      * Processes help command
      * @see Help#send()
@@ -114,7 +114,7 @@ var commands = {
       Help.send(message, suffix)
     }
   },
-  'mute': {
+  mute: {
     /**
      * Processes mute command
      * @see Mute#send()
@@ -123,7 +123,7 @@ var commands = {
       Mute.send(message, suffix)
     }
   }
-  'nationalday': {
+  nationalday: {
     /**
      * Processes national day command
      * @see NationalDays#send()
@@ -132,7 +132,7 @@ var commands = {
       NationalDays.send(message)
     }
   },
-  'obscuresorrow': {
+  obscuresorrow: {
     /**
      * Processes obscure sorrow command
      * @see Tumblr#send()
@@ -143,7 +143,7 @@ var commands = {
       })
     }
   },
-  'obscuwesowwow': {
+  obscuwesowwow: {
     /**
      * Pwocesses obscuwe sowwow command
      * @see Tumblr#send()
@@ -154,7 +154,7 @@ var commands = {
       })
     }
   },
-  'ping': {
+  ping: {
     /**
      * Processes ping command
      * @see Ping#send()
@@ -163,7 +163,7 @@ var commands = {
       Ping.send(message, client)
     }
   },
-  'poll': {
+  poll: {
     /**
      * Processes poll command
      * @see Poll#startPoll()
@@ -172,7 +172,7 @@ var commands = {
       Poll.startPoll(message, suffix.substring(5))
     }
   },
-  'spoiler': {
+  spoiler: {
     /**
      * Processes spoiler command
      * @see Spoiler#send()
