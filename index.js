@@ -70,36 +70,73 @@ function registerEvents() {
  */
 var commands = {
   'bechdel': {
+    /**
+     * Processes bechdel test command
+     * @see Bechdel#send()
+     */
     process: function(message, suffix) {
       Bechdel.send(message, suffix)
     }
   },
   'cat': {
+    /**
+     * Processes cat command
+     * @see Cat#send()
+     */
     process: function(message, suffix) {
       Cat.send(message, suffix)
     }
   },
   'captcha': {
+    /**
+     * Processes captcha command
+     * @see Captcha#send()
+     */
     process: function(message, suffix, config, client) {
       Captcha.send(message, client)
     }
   },
   'define': {
+    /**
+     * Processes define command
+     * @see Define#send()
+     */
     process: function(message, suffix) {
       Define.send(message, suffix)
     }
   },
   'help': {
+    /**
+     * Processes help command
+     * @see Help#send()
+     */
     process: function(message, suffix) {
       Help.send(message, suffix)
     }
   },
+  'mute': {
+    /**
+     * Processes mute command
+     * @see Mute#send()
+     */
+    process: function(message, suffix) {
+      Mute.send(message, suffix)
+    }
+  }
   'nationalday': {
+    /**
+     * Processes national day command
+     * @see NationalDays#send()
+     */
     process: function(message) {
       NationalDays.send(message)
     }
   },
   'obscuresorrow': {
+    /**
+     * Processes obscure sorrow command
+     * @see Tumblr#send()
+     */
     process: function(message) {
       Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
         message.channel.send(post)
@@ -107,6 +144,10 @@ var commands = {
     }
   },
   'obscuwesowwow': {
+    /**
+     * Pwocesses obscuwe sowwow command
+     * @see Tumblr#send()
+     */
     process: function(message) {
       Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
         message.channel.send(post.replace(/([lr])/gi, 'w'))
@@ -114,16 +155,28 @@ var commands = {
     }
   },
   'ping': {
+    /**
+     * Processes ping command
+     * @see Ping#send()
+     */
     process: function(message, suffix, config, client) {
       Ping.send(message, client)
     }
   },
   'poll': {
+    /**
+     * Processes poll command
+     * @see Poll#startPoll()
+     */
     process: function(message, suffix) {
       Poll.startPoll(message, suffix.substring(5))
     }
   },
   'spoiler': {
+    /**
+     * Processes spoiler command
+     * @see Spoiler#send()
+     */
     process: function(message) {
       Spoiler.send(message)
     }
