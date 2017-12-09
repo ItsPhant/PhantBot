@@ -1,14 +1,8 @@
-var assert = require('assert');
-var NationalDays = require('../../../libs/utils/nationaldays.js')
+const assert = require('assert');
+const mock = new require('../mockdiscord.js')
 
-var message = {
-  response: '',
-  channel: {
-    send: function(contents) {
-      message.response = contents
-    }
-  }
-}
+var message = new mock.Message('!nationaldays')
+const NationalDays = require('../../../libs/utils/nationaldays.js')
 
 describe('NationalDays', function() {
   describe('#send()', function() {
@@ -17,11 +11,12 @@ describe('NationalDays', function() {
     })
 
     it('does not return an error', function() {
-      assert.notEqual(message.response, 'Error getting national days.')
+      assert.notEqual(message.channel.response,
+                      'Error getting national days.')
     })
 
     it('does not return nothing', function() {
-      assert.notEqual(message.response, '')
+      assert.notEqual(message.channel.response, '')
     })
   })
 })

@@ -102,7 +102,7 @@ var commands = {
     }
   },
   'ping': {
-    process: function(message) {
+    process: function(message, suffix, config, client) {
       Ping.send(message, client)
     }
   },
@@ -124,6 +124,6 @@ function parseMessage(message) {
     let cmd = message.content.split(' ')[0].substring(prefix.length)
 
     if (commands[cmd])
-      commands[cmd].process(message, msg, config)
+      commands[cmd].process(message, msg, config, client)
   }
 }

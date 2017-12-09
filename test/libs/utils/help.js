@@ -1,22 +1,17 @@
-var assert = require('assert');
-var config = require('../../../config.json')
-var Help = require('../../../libs/utils/help.js')
+const assert = require('assert');
+const mock = new require('../mockdiscord.js')
+const config = require('../../../config.json')
 
-var message = {
-  result: "",
-  channel: {
-    send: function(contents) {
-      message.result = contents
-    }
-  }
-}
+const Help = require('../../../libs/utils/help.js')
 
 describe('Help', function() {
   describe('#send()', function() {
     it('when not given a command', function() {
+      var message = new mock.Message('!help')
       Help.send(message, 'help')
-      assert.ok(message.result.includes(
-        Help.pad('help:') + ' Display this message, or help for a command.'
+      assert.ok(message.channel.result.includes(
+        Help.pad('help:') + 
+        ' Display this message, or help for a command.'
       ))
     })
     it('when given a command', function() {
@@ -28,14 +23,17 @@ describe('Help', function() {
 
       Help.document(test)
 
+      var message = new mock.Message('!help test')
+
       Help.send(message, 'help test')
       assert.equal(`\`\`\`${test.name}: ${test.use}\n\n` +
                    `usage: ${config.bot.prefix + test.name} \`\`\``,
-                   message.result)
+                   message.channel.result)
     })
     it('when given an invalid command', function() {
+      var message = new mock.Message('!help foo')
       Help.send(message, 'help foo')
-      assert.equal(message.result, 'Unknown command foo.')
+      assert.equal(message.channel.result, 'Unknown command foo.')
     })
     it('when given a syntax based command', function() {
       test = {
@@ -45,12 +43,13 @@ describe('Help', function() {
         onlySyntax: true
       }
 
+      var message = new mock.Message('!help foo')
       Help.document(test)
       Help.send(message, 'help foo')
 
       assert.equal(`\`\`\`${test.name}:` +
                    ` ${test.use}\n\n` +
-                   `usage: ${test.syntax}\`\`\``, message.result)
+                   `usage: ${test.syntax}\`\`\``, message.channel.result)
     })
   })
 })

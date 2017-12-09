@@ -1,23 +1,14 @@
-var assert = require('assert');
-var Cat = require('../../../libs/utils/cat.js')
+const assert = require('assert');
+const mock = require('../mockdiscord.js')
 
-var message = {
-  result: "",
-  channel: {
-    send: function(contents) {
-      message.result = contents
-    }
-  },
-  delete: function() {
-    return 0
-  }
-}
+const Cat = require('../../../libs/utils/cat.js')
 
 describe('Cat', function() {
   describe('#send()', function() {
     it('returns exactly what was given.', function() {
+      var message = new mock.Message('!cat AAAAA')
       Cat.send(message, 'cat AAAAA')
-      assert.equal(message.result, 'AAAAA')
+      assert.equal(message.channel.result, 'AAAAA')
     })
   })
 })

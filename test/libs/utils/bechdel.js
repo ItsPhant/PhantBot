@@ -1,43 +1,43 @@
-var assert = require('assert');
+const assert = require('assert');
+const mock = new require('../mockdiscord.js')
 
-var Bechdel = require('../../../libs/utils/bechdel.js')
-
-var message = {
-  responses: [],
-  channel: {
-    send: function(contents, cb) {
-      message.responses.push(contents)
-    }
-  }
-}
+const Bechdel = require('../../../libs/utils/bechdel.js')
 
 describe('Bechdel', function() {
   describe('#send()', function() {
     it('returns correct zero string', function() {
       // 0/3
-      Bechdel.send(message, 'bechdel a boy and his dog', () => {
-        assert.ok(message.responses[0].includes(
+      var suffix = 'bechdel a boy and his dog'
+      var message = new mock.Message(`!${suffix}`)
+      Bechdel.send(message, suffix, () => {
+        assert.ok(message.channel.response.includes(
           'Less than two named women.'))
       })
     })
     it('returns correct one string', function() {
       // 1/3
-      Bechdel.send(message, 'bechdel santa clause is', () => {
-        assert.ok(message.responses[1].includes(
+      var suffix = 'bechdel santa clause is'
+      var message = new mock.Message(`!${suffix}`)
+      Bechdel.send(message, suffix, () => {
+        assert.ok(message.channel.response.includes(
           'Two women never speak to each other.'))
       })
     })
     it('returns correct two string', function() {
       // 2/3
-      Bechdel.send(message, 'bechdel animal house', () => {
-        assert.ok(message.responses[2].includes(
+      var suffix = 'bechdel animal house'
+      var message = new mock.Message(`!${suffix}`)
+      Bechdel.send(message, suffix, () => {
+        assert.ok(message.channel.response.includes(
           'Two women only speak about a man.'))
       })
     })
     it('returns correct three string', function() {
       // 3/3
-      Bechdel.send(message, 'bechdel wiz, the', () => {
-        assert.ok(message.responses[3].includes(
+      var suffix = 'bechdel wiz, the'
+      var message = new mock.Message(`!${suffix}`)
+      Bechdel.send(message, suffix, () => {
+        assert.ok(message.channel.response.includes(
           'Passes.'))
       })
     })
