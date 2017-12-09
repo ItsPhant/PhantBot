@@ -72,6 +72,11 @@ var commands = {
       Cat.send(message, suffix)
     }
   },
+  'captcha': {
+    process: function(message, suffix, config, client) {
+      Captcha.send(message, client)
+    }
+  },
   'define': {
     process: function(message, suffix) {
       Define.send(message, suffix)

@@ -23,6 +23,7 @@
     "he": "^1.1.1",
     "node-opus": "^0.2.7",
     "request": "^2.83.0",
+    "simple-captcha": "^0.1.10",
     "sodium": "^2.0.3",
     "tumblr.js": "^1.1.1",
     "uws": "^8.14.1",
