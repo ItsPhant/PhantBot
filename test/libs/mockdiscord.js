@@ -1,3 +1,6 @@
+/**
+ * Represents a message on Discord.
+ */
 class Message {
   constructor(content) {
     this.channel = new Channel()
@@ -10,6 +13,9 @@ class Message {
   }
 }
 
+/**
+ * Represents a user on Discord.
+ */
 class User {
   constructor(id) {
     if (id !== undefined)
@@ -19,6 +25,9 @@ class User {
   }
 }
 
+/**
+ * Represents a guild text channel on Discord.
+ */
 class Channel {
   constructor(id, name) {
     if (id !== undefined)

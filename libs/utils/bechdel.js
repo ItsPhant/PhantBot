@@ -9,6 +9,12 @@ Help.document({
   syntax: '<movie>'
 })
 
+/**
+ * Queries the bechdeltest.com api for a given movie's rating.
+ * @param {Message} message The message that triggered this command
+ * @param {string} suffix The part of the message after the bot's prefix
+ * @param {function} cb Callback function to run after request
+ */
 exports.send = (message, suffix, cb) => {
   if (!cb)
     cb = () => { return }

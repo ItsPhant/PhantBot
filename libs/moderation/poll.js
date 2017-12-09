@@ -1,3 +1,8 @@
+/**
+ * Module to create polls for executing bot commands
+ * @param {Message} message The message that triggered this command
+ * @param {string} suffix The part of the message after the bot's prefix
+ */
 exports.startPoll = (message, suffix) => {
   message.channel.send(`**Execute ${suffix}?**`)
     .then(message => {

@@ -11,6 +11,11 @@ Help.document({
 
 const nationalUrl = 'http://nationaldaycalendar.com/latest-posts/'
 
+/**
+ * Module for getting the national day from nationaldaycalendar.com
+ * @param {Message} message The message that triggered this command
+ * @param {function} cb Callback function to run after request
+ */
 exports.send = (message, cb) => {
   if (!cb)
     cb = () => { return }

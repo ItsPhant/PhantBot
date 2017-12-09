@@ -22,6 +22,11 @@ var client = tumblr.createClient({
   consumer_secret: config.bot.tumblr.consumer_secret,
 })
 
+/**
+ * Module to get posts from tumblr blogs
+ * @param {string} blogName The blog to fetch data from
+ * @param {function} callback Callback function to run after request
+ */
 exports.getRandomPost = (blogName, callback) => {
   client.blogInfo(blogName, (err, resp) => {
     let offset = Math.floor(Math.random() *

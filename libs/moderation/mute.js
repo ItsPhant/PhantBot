@@ -1,4 +1,8 @@
-exports.muteUser = (message) => {
+/**
+ * Module to mute given user
+ * @param {Message} message The message that triggered this command
+ */
+exports.muteUser = message => {
   let re = /<@!*(\d+)/g
   var id = re.exec(message.content.substring(5))[1]
   if (id) {

@@ -7,6 +7,10 @@ Help.document({
   onlySyntax: true
 })
 
+/**
+ * Module to show help for spoiler command
+ * @param {Message} message The message that triggered this command
+ */
 exports.send = message => {
   message.channel.send('```\n<topic>:spoiler:<content>\n```')
 }

@@ -2,6 +2,10 @@ const config = require('../../config.json')
 
 var commands = { default: 'Unknown command' }
 
+/**
+ * Documents a bot command
+ * @param {Object} entry The command's help information
+ */
 function document(entry) {
   commands[entry.name] = entry
 }
@@ -14,6 +18,11 @@ document({
   syntax: '[command]'
 })
 
+/**
+ * Module to show help information for bot commands.
+ * @param {Message} message The message that triggered this command
+ * @param {string} suffix The part of the message after the bot's prefix
+ */
 exports.send = (message, suffix) => {
   if (suffix === 'help')
     message.channel.send(getCommands())
@@ -34,6 +43,10 @@ function getCommands() {
   return list + `\nPhantBot Version ${pjson.version}\n\`\`\``
 }
 
+/**
+ * Creates the padding after each command based on length
+ * @param {string} str Command name to compare to
+ */
 function pad(str) {
   let length = 0
 

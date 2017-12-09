@@ -10,7 +10,11 @@ Help.document({
 
 let baseurl = 'http://api.pearson.com/v2/dictionaries/entries?headword='
 
-//word success failure
+/**
+ * Module for defining words using pearson api
+ * @param {Message} message The message that triggered this command
+ * @param {string} suffix The part of the message after the bot's prefix
+ */
 exports.send = (message, suffix) => {
 
   let word = suffix.substring(7).trim()
