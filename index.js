@@ -2,16 +2,14 @@
 
 /**
  * Requires
- **/
-
+ */
 const SpoilerBot = require('discord-spoiler-bot');
 const Discord = require('discord.js');
 const fs = require('fs');
 
 /**
  * Modules
- **/
-
+ */
 const Bechdel       = require('./libs/utils/bechdel.js')
 const Captcha       = require('./libs/utils/captcha.js')
 const Cat           = require('./libs/utils/cat.js')
@@ -30,6 +28,9 @@ var prefix,
     spoilerbot,
     config
 
+/**
+ * Read config and initialize bot.
+ */
 fs.readFile('./config.json', 'utf8', function(err, data) {
   config = JSON.parse(data)
   prefix = config.bot.prefix
@@ -46,6 +47,9 @@ fs.readFile('./config.json', 'utf8', function(err, data) {
   registerEvents()
 })
 
+/**
+ * Register events for bot's client.
+ */
 function registerEvents() {
   client.on('ready', function() {
     console.log(
@@ -61,6 +65,9 @@ function registerEvents() {
   client.on('message', message => parseMessage(message))
 }
 
+/**
+ * List of commands to evaluate.
+ */
 var commands = {
   'bechdel': {
     process: function(message, suffix) {
@@ -123,6 +130,10 @@ var commands = {
   }
 }
 
+/**
+ * Parses messages for bot commands.
+ * @param {Message} message Message to check for commands
+ */
 function parseMessage(message) {
   if (message.content.startsWith(prefix)) {
     let msg = message.content.toLowerCase().substring(prefix.length)

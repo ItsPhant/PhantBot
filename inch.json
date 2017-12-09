@@ -1,7 +1,8 @@
 {
   "files": {
     "included": [
-      "libs/**/*.js"
+      "libs/**/*.js",
+      "index.js"
     ],
     "excluded": [
 
