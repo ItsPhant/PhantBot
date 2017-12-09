@@ -11,7 +11,7 @@ describe('Ping', function() {
   describe('#send()', function() {
     it('Returns client#ping', function() {
       var message = new mock.Message('!ping')
-      Ping.send(message, client)
+      Ping.send(message, 'ping', {}, client)
       assert.equal(`pong! (${client.ping}ms)`, message.channel.result)
     })
   })

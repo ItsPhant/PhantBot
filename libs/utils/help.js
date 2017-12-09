@@ -3,7 +3,7 @@ const config = require('../../config.json')
 var commands = { default: 'Unknown command' }
 
 /**
- * Documents a bot command
+ * Documents a bot command.
  * @param {Object} entry The command's help information
  */
 function document(entry) {
@@ -30,6 +30,10 @@ exports.send = (message, suffix) => {
     message.channel.send(getCommandHelp(suffix.substring(5), config))
 }
 
+/**
+ * Lists commands as documented in each module.
+ * @returns {string}
+ */
 function getCommands() {
   let pjson = require('../../package.json')
 
@@ -44,7 +48,7 @@ function getCommands() {
 }
 
 /**
- * Creates the padding after each command based on length
+ * Creates the padding after each command based on length.
  * @param {string} str Command name to compare to
  */
 function pad(str) {
@@ -62,6 +66,12 @@ function pad(str) {
 
 exports.pad = pad
 
+/**
+ * Fetches help for given command.
+ * @param {string} c The command for which help information is obtained
+ * @param {Object} config The bot's config
+ * @returns {string}
+ */
 function getCommandHelp(c, config) {
   if (Object.keys(commands).includes(c)) {
     let begin = `\`\`\`${commands[c].name}:` +

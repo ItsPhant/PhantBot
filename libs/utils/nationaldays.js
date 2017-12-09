@@ -12,7 +12,7 @@ Help.document({
 const nationalUrl = 'http://nationaldaycalendar.com/latest-posts/'
 
 /**
- * Module for getting the national day from nationaldaycalendar.com
+ * Module for getting the national day from nationaldaycalendar.com.
  * @param {Message} message The message that triggered this command
  * @param {function} cb Callback function to run after request
  */
@@ -28,6 +28,12 @@ exports.send = (message, cb) => {
   )
 }
 
+/**
+ * Gets and parses national day information.
+ * @param {function} success Callback to run on success
+ * @param {function} failure Callback to run on failure
+ * @returns {string} Result
+ */
 function getMessage(success, failure) {
   request(nationalUrl, function(err, res, body) {
     if (!err && res.statusCode == 200) {
@@ -47,6 +53,11 @@ function getMessage(success, failure) {
   })
 }
 
+/**
+ * Converts string to title case.
+ * @param {string} phrase String to convert
+ * @returns {string} Converted string
+ */
 function toTitleCase(phrase) {
   return phrase
     .toLowerCase()
@@ -55,6 +66,11 @@ function toTitleCase(phrase) {
     .join(' ')
 }
 
+/**
+ * Joins results into single sentence.
+ * @param {array} arr Array of national days
+ * @returns {string} National day message
+ */
 function arrayToSentence(arr) {
   var last = toTitleCase(arr.pop())
 

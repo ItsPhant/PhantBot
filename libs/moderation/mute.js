@@ -1,5 +1,5 @@
 /**
- * Module to mute given user
+ * Module to mute given user.
  * @param {Message} message The message that triggered this command
  */
 exports.muteUser = message => {

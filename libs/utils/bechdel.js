@@ -28,6 +28,13 @@ exports.send = (message, suffix, cb) => {
   })
 }
 
+/**
+ * Gets result for movie title search.
+ * @param {string} query Title to search for
+ * @param {function} success Callback function for successful query
+ * @param {function} error Callback function run on error
+ * @returns {string} Results
+ */
 function search(query, success, error) {
   let url = `http://bechdeltest.com/api/v1/getMoviesByTitle?title=${encodeURIComponent(query)}`
 
@@ -48,6 +55,11 @@ function search(query, success, error) {
   })
 }
 
+/**
+ * Parses site rating into easier to understand form.
+ * @param {string|number} rating Rating of movie
+ * @returns {string} Human-readable form of movie rating
+ */
 function parseRating(rating) {
   var text
   switch(rating) {

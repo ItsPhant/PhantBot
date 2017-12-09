@@ -11,7 +11,7 @@ Help.document({
 let baseurl = 'http://api.pearson.com/v2/dictionaries/entries?headword='
 
 /**
- * Module for defining words using pearson api
+ * Module for defining words using pearson api.
  * @param {Message} message The message that triggered this command
  * @param {string} suffix The part of the message after the bot's prefix
  */
@@ -34,7 +34,11 @@ exports.send = (message, suffix) => {
   })
 }
 
-//https://stackoverflow.com/a/19089667
+/**
+ * Applies sentence case to string.
+ * @param {string} str String to apply case to
+ * @returns {string}
+ */
 function applySentenceCase(str) {
   if (!str)
     return "Error parsing string."
@@ -45,7 +49,12 @@ function applySentenceCase(str) {
   })
 }
 
-//https://stackoverflow.com/a/19544945
+/**
+ * Javascript version of c#'s firstOrDefault.
+ * @param {Object} obj Object to get child from
+ * @param {Object} d Default object to return
+ * @returns {Object}
+ */
 function firstOrDefault(obj, d) { 
   for (var i in obj)
   {
@@ -57,6 +66,11 @@ function firstOrDefault(obj, d) {
   return d
 }
 
+/**
+ * Parses response's body into human-readable form.
+ * @param {Object} body Response object
+ * @returns {string}
+ */
 function parseBody(body) {
   let definition = JSON.parse(body)
     .results[0]

@@ -8,7 +8,7 @@ Help.document({
 })
 
 /**
- * Module for repeating user messages
+ * Module for repeating user messages.
  * @param {Message} message The message that triggered this command
  * @param {string} suffix The part of the message after the bot's prefix
  */

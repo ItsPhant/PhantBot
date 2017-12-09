@@ -7,7 +7,7 @@ Help.document({
 })
 
 /**
- * Module for getting bot's connection ping
+ * Module for getting bot's connection ping.
  * @param {Message} message The message that triggered this command
  * @param {string} suffix The part of the message after the bot's prefix
  * @param {Object} config The bot's config

@@ -23,7 +23,7 @@ var client = tumblr.createClient({
 })
 
 /**
- * Module to get posts from tumblr blogs
+ * Module to get posts from tumblr blogs.
  * @param {string} blogName The blog to fetch data from
  * @param {function} callback Callback function to run after request
  */
@@ -42,6 +42,12 @@ exports.getRandomPost = (blogName, callback) => {
   })
 }
 
+/**
+ * Replaces html formatting in post with markdown version.
+ * @param {string} title The title of the post
+ * @param {string} body The body of the post
+ * @returns {string} Formatted post
+ */
 function parsePost(title, body) {
   let parsed = `**${title}:**\n\n`
 

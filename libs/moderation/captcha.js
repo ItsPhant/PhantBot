@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 
 /**
- * Module to add captcha verification
+ * Module to add captcha verification.
  * @param {Message} trigger The message that triggered the command
  * @param {Client} client The bot's Discord client
  */
@@ -16,6 +16,13 @@ exports.send = (trigger, client) => {
     message => testAgainstCaptcha(client, message, trigger, captcha))
 }
 
+/**
+ * Tests user message against the captcha.
+ * @param {Client} client The bot's Discord client
+ * @param {Message} message The message that triggered verification
+ * @param {Message} trigger The message that triggered this function
+ * @param {Object} captcha The captcha for testing against
+ */
 function testAgainstCaptcha(client, message, trigger, captcha) {
   if (message.author === trigger.author) {
     if(message.content === captcha.text()) {
