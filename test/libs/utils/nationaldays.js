@@ -1,7 +1,7 @@
 const assert = require('assert');
-const mock = new require('../mockdiscord.js')
+const Message = require('../../mock/discord.js/structures/Message')
 
-var message = new mock.Message('!nationaldays')
+var message = new Message('!nationaldays')
 const NationalDays = require('../../../libs/utils/nationaldays.js')
 
 describe('NationalDays', function() {
