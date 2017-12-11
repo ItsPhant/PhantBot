@@ -10,17 +10,17 @@ const fs = require('fs')
 /**
  * Modules
  */
-const Bechdel       = require('./libs/utils/bechdel.js')
-const Cat           = require('./libs/utils/cat.js')
-const Define        = require('./libs/utils/define.js')
-const Help          = require('./libs/utils/help.js')
-const NationalDays  = require('./libs/utils/nationaldays.js')
-const Ping          = require('./libs/utils/ping.js')
-const Tumblr        = require('./libs/utils/tumblr.js')
+const Bechdel      = require('./libs/utils/bechdel.js')
+const Cat          = require('./libs/utils/cat.js')
+const Define       = require('./libs/utils/define.js')
+const Help         = require('./libs/utils/help.js')
+const NationalDays = require('./libs/utils/nationaldays.js')
+const Ping         = require('./libs/utils/ping.js')
+const Tumblr       = require('./libs/utils/tumblr.js')
 
-const Captcha       = require('./libs/moderation/captcha.js')
-const Mute          = require('./libs/moderation/mute.js')
-const Poll          = require('./libs/moderation/poll.js')
+const Captcha      = require('./libs/moderation/captcha.js')
+const Mute         = require('./libs/moderation/mute.js')
+const Poll         = require('./libs/moderation/poll.js')
 
 let prefix = ''
 let client
