@@ -66,18 +66,13 @@ function parseBody(body) {
  * @returns {void}
  */
 exports.send = (message, suffix) => {
-
   let word = suffix.substring(7).trim()
 
   request.get(
     {url:encodeURI(baseurl + encodeURIComponent(word))},
     function onRequest(err, res, body) {
       if (!err && res.statusCode === 200) {
-        try {
-          return message.channel.send(parseBody(body))
-        } catch (e) {
-          return message.channel.send('Error getting definition.')
-        }
+        return message.channel.send(parseBody(body))
       } else {
         return message.channel.send('Error getting definition.')
       }
