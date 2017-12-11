@@ -1,12 +1,13 @@
 /**
  * Module to mute given user.
  * @param {Message} message The message that triggered this command
+ * @returns {void}
  */
 exports.muteUser = message => {
   let re = /<@!*(\d+)/g
-  var id = re.exec(message.content.substring(5))[1]
+  let id = re.exec(message.content.substring(5))[1]
   if (id) {
-    guild.roles.forEach((value, key, map) => {
+    guild.roles.forEach((value, key) => {
       if (value.name === 'mute' || value.name === 'muted') {
         guild.members.get(id).addRole(key)
       } else {

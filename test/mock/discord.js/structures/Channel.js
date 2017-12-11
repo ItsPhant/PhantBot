@@ -1,18 +1,21 @@
 /**
  * Represents a guild text channel on Discord.
+ * @class
  */
 class Channel {
   constructor(id, name) {
-    if (id !== undefined)
+    if (id !== undefined) {
       this.id = id
-    else
+    } else {
       this.id = '123456789'
+    }
 
-    if (name !== undefined)
+    if (name !== undefined) {
       this.name = name
-    else
+    } else {
       this.name = 'Mock Channel'
-    this.result = '' 
+    }
+    this.result = ''
   }
 
   send(content) {

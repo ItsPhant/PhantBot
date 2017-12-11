@@ -12,6 +12,7 @@ Help.document({
  * @param {string} suffix The part of the message after the bot's prefix
  * @param {Object} config The bot's config
  * @param {Client} client The bot's Discord client
+ * @returns {void}
  */
 exports.send = (message, suffix, config, client) => {
   message.channel.send(`pong! (${Math.floor(client.ping)}ms)`)

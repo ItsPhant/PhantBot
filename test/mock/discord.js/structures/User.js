@@ -1,12 +1,14 @@
 /**
  * Represents a user on Discord.
+ * @class
  */
 class User {
   constructor(id) {
-    if (id !== undefined)
+    if (id !== undefined) {
       this.id = id
-    else
+    } else {
       this.id = '1234567890'
+    }
   }
 }
 

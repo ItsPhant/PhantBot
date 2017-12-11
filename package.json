@@ -7,10 +7,15 @@
     "start": "node index.js",
     "firejail": "firejail node index.js",
     "test": "mocha --recursive",
-    "istanbul": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
+    "istanbul": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
+    "eslint": "eslint libs index.js"
   },
   "author": "Ellie Phant <itsphant@gmail.com>",
   "license": "GPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ItsPhant/PhantBot.git"
+  },
   "bugs": {
     "url": "https://github.com/ItsPhant/PhantBot/issues"
   },
@@ -31,6 +36,7 @@
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
+    "eslint": "^4.13.0",
     "istanbul": "^0.4.5",
     "mocha": "^4.0.1",
     "mocha-lcov-reporter": "^1.3.0"

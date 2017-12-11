@@ -1,3 +1,4 @@
+/* eslint-disable */
 var PersonalityInsightsV3 = require('watson-developer-cloud/personality-insights/v3');
 
 var personality_insights = new PersonalityInsightsV3(

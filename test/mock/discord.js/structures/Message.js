@@ -3,6 +3,7 @@ const User = require('./User')
 
 /**
  * Represents a message on Discord.
+ * @class
  */
 class Message {
   constructor(content) {
