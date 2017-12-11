@@ -71,13 +71,14 @@ function onEndInfo(rawData, callback) {
 }
 
 /**
- * Gets blog info.
- * @param {string} url Url to query
- * @param {function} callback Called after info retrieved
+ * Gets info from tumblr.
+ * @param {string} fullurl The full url to use for request
+ * @param {function} onEnd The function to call after request finishes
+ * @param {function} callback The function to call after end finishes
  * @returns {void}
  */
-function getInfo(url, callback) {
-  https.get(`${url}/info?api_key=${apikey}`, function onRequest(res) {
+function doRequest(fullurl, onEnd, callback) {
+  https.get(fullurl, function onRequest(res) {
     const {statusCode} = res
 
     let error = response.isValid(res,
@@ -96,10 +97,20 @@ function getInfo(url, callback) {
       rawData += chunk
     })
 
-    res.on('end', () => onEndInfo(rawData, callback))
+    res.on('end', () => onEnd(rawData, callback))
   }).on('error', function onError(e) {
     return doErrors(e.message, onError())
   })
+}
+
+/**
+ * Gets blog info.
+ * @param {string} url Url to query
+ * @param {function} callback Called after info retrieved
+ * @returns {void}
+ */
+function getInfo(url, callback) {
+  doRequest(`${url}/info?api_key=${apikey}`, onEndInfo, callback)
 }
 
 /**
@@ -131,29 +142,7 @@ function onEndPost(rawData, callback) {
  */
 function getPost(url, post, callback) {
   let fullurl = `${url}/posts?api_key=${apikey}&offset=${post}`
-  https.get(fullurl, function onRequest(res) {
-    const {statusCode} = res
-
-    let error = response.isValid(res,
-                                 statusCode === 200,
-                                 'application/json')
-
-    if (error) {
-      return doErrors(e.message, () => {
-        res.resume()
-      })
-    }
-
-    res.setEncoding('utf8')
-    let rawData = ''
-    res.on('data', function onData(chunk) {
-      rawData += chunk
-    })
-
-    res.on('end', () => onEndPost(rawData, callback))
-  }).on('error', function onError(e) {
-    return doErrors(e.message, onError())
-  })
+  doRequest(fullurl, onEndPost, callback)
 }
 
 /**
