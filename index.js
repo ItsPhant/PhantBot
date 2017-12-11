@@ -10,17 +10,8 @@ const fs = require('fs')
 /**
  * Modules
  */
-const Bechdel      = require('./libs/utils/bechdel.js')
-const Cat          = require('./libs/utils/cat.js')
-const Define       = require('./libs/utils/define.js')
-const Help         = require('./libs/utils/help.js')
-const NationalDays = require('./libs/utils/nationaldays.js')
-const Ping         = require('./libs/utils/ping.js')
-const Tumblr       = require('./libs/utils/tumblr.js')
-
-const Captcha      = require('./libs/moderation/captcha.js')
-const Mute         = require('./libs/moderation/mute.js')
-const Poll         = require('./libs/moderation/poll.js')
+const utils = require('./libs/utils/')
+const moderation = require('./libs/moderation/')
 
 let prefix = ''
 let client
@@ -36,7 +27,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      Bechdel.send(message, suffix)
+      utils.Bechdel.send(message, suffix)
     }
   },
   cat: {
@@ -48,7 +39,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      Cat.send(message, suffix)
+      utils.Cat.send(message, suffix)
     }
   },
   captcha: {
@@ -62,7 +53,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix, config, client) {
-      Captcha.send(message, client)
+      moderation.Captcha.send(message, client)
     }
   },
   define: {
@@ -74,7 +65,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      Define.send(message, suffix)
+      utils.Define.send(message, suffix)
     }
   },
   help: {
@@ -86,7 +77,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      Help.send(message, suffix)
+      utils.Help.send(message, suffix)
     }
   },
   mute: {
@@ -98,7 +89,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      Mute.send(message, suffix)
+      moderation.Mute.send(message, suffix)
     }
   },
   nationalday: {
@@ -109,7 +100,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      NationalDays.send(message)
+      utils.NationalDays.send(message)
     }
   },
   obscuresorrow: {
@@ -120,7 +111,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+      utils.Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
         message.channel.send(post)
       })
     }
@@ -133,7 +124,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+      utils.Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
         message.channel.send(post.replace(/([lr])/gi, 'w'))
       })
     }
@@ -149,7 +140,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix, config, client) {
-      Ping.send(message, client)
+      utils.Ping.send(message, client)
     }
   },
   poll: {
@@ -161,7 +152,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      Poll.startPoll(message, suffix.substring(5))
+      moderation.Poll.startPoll(message, suffix.substring(5))
     }
   },
   spoiler: {
@@ -172,7 +163,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      Spoiler.send(message)
+      utils.Spoiler.send(message)
     }
   }
 }
