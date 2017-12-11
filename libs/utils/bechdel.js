@@ -34,6 +34,27 @@ function parseRating(rating) {
 }
 
 /**
+ * Parses data received from request.
+ * @param {string} rawData Data to parse
+ * @param {function} onSuccess Callback function for successful query
+ * @param {function} onError Callback function for error
+ * @returns {void}
+ */
+function onEnd(rawData, onSuccess, onError) {
+  try {
+    let movies = '\`\`\`diff\n'
+    const parsedData = JSON.parse(rawData)
+    parsedData.forEach(movie => {
+      movies += `+ ${movie.title}: ${parseRating(movie.rating)}\n`
+    })
+    return onSuccess(movies += '\`\`\`')
+  } catch (e) {
+    console.error(e.message)
+    return onError()
+  }
+}
+
+/**
  * Gets result for movie title search.
  * @param {string} query Title to search for
  * @param {function} onSuccess Callback function for successful query
@@ -62,19 +83,7 @@ function search(query, onSuccess, onError) {
       rawData += chunk
     })
 
-    res.on('end', function onEnd() {
-      try {
-        let movies = '\`\`\`diff\n'
-        const parsedData = JSON.parse(rawData)
-        parsedData.forEach(movie => {
-          movies += `+ ${movie.title}: ${parseRating(movie.rating)}\n`
-        })
-        return onSuccess(movies += '\`\`\`')
-      } catch (e) {
-        console.error(e.message)
-        return onError()
-      }
-    })
+    res.on('end', () => onEnd(rawData, onSuccess, onError))
   }).on('error', function onError(e) {
     console.error(`Got error: ${e.message}`)
     return onError()

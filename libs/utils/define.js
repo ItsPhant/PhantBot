@@ -61,6 +61,21 @@ function parseBody(body) {
 }
 
 /**
+ * Parses data received from request.
+ * @param {string} rawData Data to parse
+ * @param {Message} message The message that triggered this command
+ * @returns {void}
+ */
+function onEnd(rawData, message) {
+  try {
+    message.channel.send(parseBody(rawData))
+  } catch (e) {
+    console.error(e.message)
+    message.channel.send('Error getting definition.')
+  }
+}
+
+/**
  * Module for defining words using pearson api.
  * @param {Message} message The message that triggered this command
  * @param {string} suffix The part of the message after the bot's prefix
@@ -90,14 +105,7 @@ exports.send = (message, suffix) => {
         rawData += chunk
       })
 
-      res.on('end', function onEnd() {
-        try {
-          message.channel.send(parseBody(rawData))
-        } catch (e) {
-          console.error(e.message)
-          message.channel.send('Error getting definition.')
-        }
-      })
+      res.on('end', () => onEnd(rawData, message))
     }).on('error', function onError(e) {
     console.error(`Got error: ${e.message}`)
   })

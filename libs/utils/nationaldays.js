@@ -41,6 +41,30 @@ function arrayToSentence(arr) {
 }
 
 /**
+ * Parses data received from request.
+ * @param {string} rawData Data to parse
+ * @param {function} success Callback function for successful query
+ * @param {function} error Callback function for error
+ * @returns {void}
+ */
+function onEnd(rawData, success, error) {
+  try {
+    let today = $('.post', rawData).first()
+    let days = $('h2.entry-title a', today).text().split(' – ')
+    days.shift()
+
+    let _days = arrayToSentence(days)
+
+    let message = 'Happy ' + _days + '!'
+
+    return success(message)
+  } catch (e) {
+    console.error(e.message)
+    return failure()
+  }
+}
+
+/**
  * Gets and parses national day information.
  * @param {function} success Callback to run on success
  * @param {function} failure Callback to run on failure
@@ -65,22 +89,8 @@ function getMessage(success, failure) {
     res.on('data', function onData(chunk) {
       rawData += chunk
     })
-    res.on('end', function onEnd() {
-      try {
-        let today = $('.post', rawData).first()
-        let days = $('h2.entry-title a', today).text().split(' – ')
-        days.shift()
 
-        let _days = arrayToSentence(days)
-
-        let message = 'Happy ' + _days + '!'
-
-        return success(message)
-      } catch (e) {
-        console.error(e.message)
-        return failure()
-      }
-    })
+    res.on('end', () => onEnd(rawData, success, failure) )
   }).on('error', function onError(e) {
     console.error(`Got error: ${e.message}`)
     return failure()
