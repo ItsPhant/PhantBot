@@ -1,4 +1,4 @@
-const request = require('request')
+const http = require('http')
 
 const Help = require('./help.js')
 
@@ -68,14 +68,43 @@ function parseBody(body) {
 exports.send = (message, suffix) => {
   let word = suffix.substring(7).trim()
 
-  request.get(
-    {url:encodeURI(baseurl + encodeURIComponent(word))},
-    function onRequest(err, res, body) {
-      if (!err && res.statusCode === 200) {
-        return message.channel.send(parseBody(body))
-      } else {
-        return message.channel.send('Error getting definition.')
+  http.get(
+    encodeURI(baseurl + encodeURIComponent(word)),
+    function onRequest(res) {
+      const {statusCode} = res
+      const contentType = res.headers['content-type']
+
+      let error
+      if (statusCode !== 200) {
+        error = new Error('Request Failed.\n' +
+                          `Status Code: ${statusCode}`)
+      } else if (!/^application\/json/.test(contentType)) {
+        error = new Error('Invalid content-type.\n' +
+                          'Expected application/json but received ' +
+                          contentType)
       }
-    }
-  )
+
+      if (error) {
+        console.error(error.message)
+        res.resume()
+        return
+      }
+
+      res.setEncoding('utf8')
+      let rawData = ''
+      res.on('data', function onData(chunk) {
+        rawData += chunk
+      })
+
+      res.on('end', function onEnd() {
+        try {
+          message.channel.send(parseBody(rawData))
+        } catch (e) {
+          console.error(e.message)
+          message.channel.send('Error getting definition.')
+        }
+      })
+    }).on('error', function onError(e) {
+    console.error(`Got error: ${e.message}`)
+  })
 }

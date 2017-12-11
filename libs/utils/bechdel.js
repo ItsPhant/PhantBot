@@ -1,4 +1,4 @@
-const request = require('request')
+const http = require('http')
 
 const Help = require('./help.js')
 
@@ -35,27 +35,55 @@ function parseRating(rating) {
 /**
  * Gets result for movie title search.
  * @param {string} query Title to search for
- * @param {function} success Callback function for successful query
- * @param {function} error Callback function run on error
+ * @param {function} onSuccess Callback function for successful query
+ * @param {function} onError Callback function run on error
  * @returns {string} Results
  */
-function search(query, success, error) {
+function search(query, onSuccess, onError) {
   let url = `http://bechdeltest.com/api/v1/getMoviesByTitle?title=${encodeURIComponent(query)}`
 
-  request.get({url:url}, function onRequest(err, res, body) {
-    if (!err && res.statuscode !== 404) {
-      let movies = '\`\`\`diff\n'
-      JSON.parse(body).forEach((movie) => {
-        try {
-          movies += `+ ${movie.title}: ${parseRating(movie.rating)}\n`
-        } catch (e) {
-          return error()
-        }
-      })
-      return success(movies += '\`\`\`')
-    } else {
-      return error()
+  http.get(url, function onRequest(res) {
+    const {statusCode} = res
+    const contentType = res.headers['content-type']
+
+    let error
+    if (statusCode === 404) {
+      error = new Error('Request Failed.\n' +
+                        `Status Code: ${statusCode}`)
+    } else if (!/^application\/json/.test(contentType)) {
+      error = new Error('Invalid content-type.\n' +
+                        'Expected application/json but received' +
+                        contentType)
     }
+
+    if (error) {
+      console.error(error.message)
+      res.resume()
+      return
+    }
+
+    res.setEncoding('utf8')
+    let rawData = ''
+    res.on('data', function onData(chunk) {
+      rawData += chunk
+    })
+
+    res.on('end', () => {
+      try {
+        let movies = '\`\`\`diff\n'
+        const parsedData = JSON.parse(rawData)
+        parsedData.forEach(movie => {
+          movies += `+ ${movie.title}: ${parseRating(movie.rating)}\n`
+        })
+        return onSuccess(movies += '\`\`\`')
+      } catch (e) {
+        console.error(e.message)
+        return onError()
+      }
+    })
+  }).on('error', function onError(e) {
+    console.error(`Got error: ${e.message}`)
+    return onError()
   })
 }
 

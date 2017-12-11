@@ -1,4 +1,4 @@
-const request = require('request')
+const https = require('https')
 const $ = require('cheerio')
 
 const Help = require('./help.js')
@@ -9,7 +9,7 @@ Help.document({
   syntax: ''
 })
 
-const nationalUrl = 'http://nationaldaycalendar.com/latest-posts/'
+const nationalUrl = 'https://nationaldaycalendar.com/latest-posts/'
 
 /**
  * Converts string to title case.
@@ -46,21 +46,50 @@ function arrayToSentence(arr) {
  * @returns {string} Result
  */
 function getMessage(success, failure) {
-  request(nationalUrl, function onRequest(err, res, body) {
-    if (!err && res.statusCode === 200) {
-      let today = $('.post', body).first()
-      let days = $('h2.entry-title a', today).text().split(' – ')
-      days.shift()
+  https.get(nationalUrl, function onRequest(res) {
+    const {statusCode} = res
+    const contentType = res.headers['content-type']
 
-      let _days = arrayToSentence(days)
+    let error
+    if (statusCode !== 200) {
+      error = new Error('Request Failed.\n' +
+                        `Status Code: ${statusCode}`)
+    } else if (!/^text\/html/.test(contentType)) {
+      error = new Error('Invalid content-type.\n' +
+                        'Expected text/html but received ' +
+                        contentType)
+    }
 
-      let message = 'Happy ' + _days + '!'
-
-      return success(message)
-
-    } else {
+    if (error) {
+      console.error(error.message)
+      res.resume()
       return failure()
     }
+
+    res.setEncoding('utf8')
+    let rawData = ''
+    res.on('data', function onData(chunk) {
+      rawData += chunk
+    })
+    res.on('end', function onEnd() {
+      try {
+        let today = $('.post', rawData).first()
+        let days = $('h2.entry-title a', today).text().split(' – ')
+        days.shift()
+
+        let _days = arrayToSentence(days)
+
+        let message = 'Happy ' + _days + '!'
+
+        return success(message)
+      } catch (e) {
+        console.error(e.message)
+        return failure()
+      }
+    })
+  }).on('error', function onError(e) {
+    console.error(`Got error: ${e.message}`)
+    return failure()
   })
 }
 
