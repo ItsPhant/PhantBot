@@ -31,8 +31,7 @@
     "simple-captcha": "^0.1.10",
     "sodium": "^2.0.3",
     "tumblr.js": "^1.1.1",
-    "uws": "^8.14.1",
-    "watson-developer-cloud": "^2.42.0"
+    "uws": "^8.14.1"
   },
   "devDependencies": {
     "coveralls": "^3.0.0",
