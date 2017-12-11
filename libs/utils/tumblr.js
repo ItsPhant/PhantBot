@@ -40,6 +40,21 @@ function parsePost(title, body) {
 }
 
 /**
+ * Runs needed error output
+ * @param {string} errorMessage Error to output
+ * @param {function} callback Function to run afterwards
+ * @returns {void}
+ */
+function doErrors(errorMessage, callback) {
+  console.error(`Got error: ${errorMessage}`)
+  if (callback !== undefined) {
+    return callback(errorMessage)
+  } else {
+    return
+  }
+}
+
+/**
  * Parses blog info recieved from request.
  * @param {string} rawData Data to parse
  * @param {function} callback Callback function for info
@@ -51,7 +66,7 @@ function onEndInfo(rawData, callback) {
     return callback(Math.floor(Math.random() *
                     (parsedData.response.blog.posts - 1) + 1))
   } catch (e) {
-    console.error(`Got error: ${e.message}`)
+    return doErrors(e.message)
   }
 }
 
@@ -70,9 +85,9 @@ function getInfo(url, callback) {
                                  'application/json')
 
     if (error) {
-      console.error(error.message)
-      res.resume()
-      return
+      return doErrors(error.message, () => {
+        res.resume()
+      })
     }
 
     res.setEncoding('utf8')
@@ -83,8 +98,7 @@ function getInfo(url, callback) {
 
     res.on('end', () => onEndInfo(rawData, callback))
   }).on('error', function onError(e) {
-    console.error(`Got error: ${e.message}`)
-    return onError()
+    return doErrors(e.message, onError())
   })
 }
 
@@ -104,9 +118,7 @@ function onEndPost(rawData, callback) {
       return callback(parsePost(post.title, post.body))
     }
   } catch (e) {
-    let msg = `Got error: ${e.message}`
-    console.error(msg)
-    return callback(msg)
+    return doErrors(e.message, callback())
   }
 }
 
@@ -127,9 +139,9 @@ function getPost(url, post, callback) {
                                  'application/json')
 
     if (error) {
-      console.error(error.message)
-      res.resume()
-      return
+      return doErrors(e.message, () => {
+        res.resume()
+      })
     }
 
     res.setEncoding('utf8')
@@ -140,8 +152,7 @@ function getPost(url, post, callback) {
 
     res.on('end', () => onEndPost(rawData, callback))
   }).on('error', function onError(e) {
-    console.error(`Got error: ${e.message}`)
-    return onError()
+    return doErrors(e.message, onError())
   })
 }
 
