@@ -29,7 +29,6 @@
     "libsodium-wrappers": "^0.7.2",
     "node-opus": "^0.2.7",
     "simple-captcha": "^0.1.10",
-    "tumblr.js": "^1.1.1",
     "uws": "^8.14.1"
   },
   "devDependencies": {
