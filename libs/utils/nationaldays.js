@@ -44,10 +44,10 @@ function arrayToSentence(arr) {
  * Parses data received from request.
  * @param {string} rawData Data to parse
  * @param {function} success Callback function for successful query
- * @param {function} error Callback function for error
+ * @param {function} failure Callback function for failure
  * @returns {void}
  */
-function onEnd(rawData, success, error) {
+function onEnd(rawData, success, failure) {
   try {
     let today = $('.post', rawData).first()
     let days = $('h2.entry-title a', today).text().split(' – ')
