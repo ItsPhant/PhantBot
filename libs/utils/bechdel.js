@@ -1,4 +1,5 @@
 const http = require('http')
+const response = require('../response')
 
 const Help = require('./help.js')
 
@@ -44,17 +45,10 @@ function search(query, onSuccess, onError) {
 
   http.get(url, function onRequest(res) {
     const {statusCode} = res
-    const contentType = res.headers['content-type']
 
-    let error
-    if (statusCode === 404) {
-      error = new Error('Request Failed.\n' +
-                        `Status Code: ${statusCode}`)
-    } else if (!/^application\/json/.test(contentType)) {
-      error = new Error('Invalid content-type.\n' +
-                        'Expected application/json but received' +
-                        contentType)
-    }
+    let error = response.isValid(res,
+                                 statusCode !== 404,
+                                 'application/json')
 
     if (error) {
       console.error(error.message)
@@ -68,7 +62,7 @@ function search(query, onSuccess, onError) {
       rawData += chunk
     })
 
-    res.on('end', () => {
+    res.on('end', function onEnd() {
       try {
         let movies = '\`\`\`diff\n'
         const parsedData = JSON.parse(rawData)

@@ -1,4 +1,5 @@
 const https = require('https')
+const response = require('../response')
 const $ = require('cheerio')
 
 const Help = require('./help.js')
@@ -48,17 +49,10 @@ function arrayToSentence(arr) {
 function getMessage(success, failure) {
   https.get(nationalUrl, function onRequest(res) {
     const {statusCode} = res
-    const contentType = res.headers['content-type']
 
-    let error
-    if (statusCode !== 200) {
-      error = new Error('Request Failed.\n' +
-                        `Status Code: ${statusCode}`)
-    } else if (!/^text\/html/.test(contentType)) {
-      error = new Error('Invalid content-type.\n' +
-                        'Expected text/html but received ' +
-                        contentType)
-    }
+    let error = response.isValid(res,
+                                 statusCode === 200,
+                                 'text/html')
 
     if (error) {
       console.error(error.message)
