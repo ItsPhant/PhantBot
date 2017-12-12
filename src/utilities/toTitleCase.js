@@ -4,6 +4,10 @@
  * @returns {string} Converted string
  */
 module.exports = function toTitleCase(string) {
+  if (!string) {
+    return 'Error parsing string.'
+  }
+
   return string
     .toLowerCase()
     .split(' ')
