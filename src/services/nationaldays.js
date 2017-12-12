@@ -1,5 +1,6 @@
 const https = require('https')
-const response = require('../response')
+const response = require('../utilities/response')
+const toTitleCase = require('../utilities/toTitleCase')
 const $ = require('cheerio')
 
 const Help = require('./help.js')
@@ -11,19 +12,6 @@ Help.document({
 })
 
 const nationalUrl = 'https://nationaldaycalendar.com/latest-posts/'
-
-/**
- * Converts string to title case.
- * @param {string} phrase String to convert
- * @returns {string} Converted string
- */
-function toTitleCase(phrase) {
-  return phrase
-    .toLowerCase()
-    .split(' ')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-}
 
 /**
  * Joins results into single sentence.

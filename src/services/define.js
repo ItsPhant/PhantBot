@@ -1,5 +1,7 @@
 const http = require('http')
-const response = require('../response')
+const response = require('../utilities/response')
+const firstOrDefault = require('../utilities/firstOrDefault')
+const toSentenceCase = require('../utilities/toSentenceCase')
 
 const Help = require('./help.js')
 
@@ -10,37 +12,6 @@ Help.document({
 })
 
 let baseurl = 'http://api.pearson.com/v2/dictionaries/entries?headword='
-
-/**
- * Applies sentence case to string.
- * @param {string} str String to apply case to
- * @returns {string} Sentence cased string
- */
-function applySentenceCase(str) {
-  if (!str) {
-    return 'Error parsing string.'
-  }
-
-  let rg = /(^\w{1}|\.\s*\w{1})/gi
-  return str.replace(rg, function filter(toReplace) {
-    return toReplace.toUpperCase()
-  })
-}
-
-/**
- * Javascript version of c#'s firstOrDefault.
- * @param {Object} obj Object to get child from
- * @param {Object} d Default object to return
- * @returns {Object} The first element of a sequence, or a default value
- */
-function firstOrDefault(obj, d) {
-  for (const i in obj) {
-    if (obj.hasOwnProperty(i)) {
-      return obj[i]
-    }
-  }
-  return d
-}
 
 /**
  * Parses response's body into human-readable form.
@@ -54,9 +25,9 @@ function parseBody(body) {
     .definition
 
   if (typeof definition === 'string') {
-    return applySentenceCase(definition)
+    return toSentenceCase(definition)
   } else {
-    return applySentenceCase(firstOrDefault(definition))
+    return toSentenceCase(firstOrDefault(definition))
   }
 }
 

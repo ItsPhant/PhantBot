@@ -1,7 +1,7 @@
 const assert = require('assert');
 const Message = require('../../mock/discord.js/structures/Message')
 
-const Spoiler = require('../../../libs/utils/spoiler.js')
+const Spoiler = require('../../../src/services/spoiler')
 
 describe('Spoiler', function() {
   describe('#send()', function() {

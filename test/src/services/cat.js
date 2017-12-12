@@ -1,7 +1,7 @@
 const assert = require('assert');
 const Message = require('../../mock/discord.js/structures/Message')
 
-const Cat = require('../../../libs/utils/cat.js')
+const Cat = require('../../../src/services/cat')
 
 describe('Cat', function() {
   describe('#send()', function() {

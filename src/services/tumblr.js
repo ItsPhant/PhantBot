@@ -1,8 +1,7 @@
 const https = require('https')
 const he = require('he')
-const response = require('../response')
-
 const config = require('../../config.json')
+const response = require('../utilities/response')
 const Help = require('./help.js')
 
 Help.document({

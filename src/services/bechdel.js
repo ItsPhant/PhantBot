@@ -1,5 +1,5 @@
 const http = require('http')
-const response = require('../response')
+const response = require('../utilities/response')
 
 const Help = require('./help.js')
 

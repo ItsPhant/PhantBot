@@ -9,8 +9,7 @@
       "version_date": "2017-10-13"
     },
     "tumblr": {
-      "consumer_key": "<consumer_key goes here>",
-      "consumer_secret": "<consumer_secret goes here>"
+      "apikey": "<consumer_key goes here>"
     }
   }
 }

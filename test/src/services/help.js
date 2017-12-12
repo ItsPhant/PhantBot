@@ -2,7 +2,7 @@ const assert = require('assert');
 const Message = require('../../mock/discord.js/structures/Message')
 const config = require('../../../config.json')
 
-const Help = require('../../../libs/utils/help.js')
+const Help = require('../../../src/services/help')
 
 describe('Help', function() {
   describe('#send()', function() {

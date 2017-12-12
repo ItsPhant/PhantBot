@@ -10,8 +10,8 @@ const fs = require('fs')
 /**
  * Modules
  */
-const utils = require('./libs/utils/')
-const moderation = require('./libs/moderation/')
+const Services = require('./src/services/')
+const Moderation = require('./src/moderation/')
 
 let prefix = ''
 let client
@@ -27,7 +27,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      utils.Bechdel.send(message, suffix)
+      Services.Bechdel.send(message, suffix)
     }
   },
   cat: {
@@ -39,7 +39,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      utils.Cat.send(message, suffix)
+      Services.Cat.send(message, suffix)
     }
   },
   captcha: {
@@ -53,7 +53,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix, config, client) {
-      moderation.Captcha.send(message, client)
+      Moderation.Captcha.send(message, client)
     }
   },
   define: {
@@ -65,7 +65,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      utils.Define.send(message, suffix)
+      Services.Define.send(message, suffix)
     }
   },
   help: {
@@ -77,7 +77,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      utils.Help.send(message, suffix)
+      Services.Help.send(message, suffix)
     }
   },
   mute: {
@@ -89,7 +89,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      moderation.Mute.send(message, suffix)
+      Moderation.Mute.send(message, suffix)
     }
   },
   nationalday: {
@@ -100,7 +100,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      utils.NationalDays.send(message)
+      Services.NationalDays.send(message)
     }
   },
   obscuresorrow: {
@@ -111,7 +111,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      utils.Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+      Services.Tumblr.getRandomPost('dictionaryofobscuresorrows', post => {
         message.channel.send(post)
       })
     }
@@ -124,7 +124,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      utils.Tumblr.getRandomPost('dictionaryofobscuresorrows', (post) => {
+      Services.Tumblr.getRandomPost('dictionaryofobscuresorrows', post => {
         message.channel.send(post.replace(/([lr])/gi, 'w'))
       })
     }
@@ -140,7 +140,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix, config, client) {
-      utils.Ping.send(message, client)
+      Services.Ping.send(message, client)
     }
   },
   poll: {
@@ -152,7 +152,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message, suffix) {
-      moderation.Poll.startPoll(message, suffix.substring(5))
+      Moderation.Poll.startPoll(message, suffix.substring(5))
     }
   },
   spoiler: {
@@ -163,7 +163,7 @@ let commands = {
      * @returns {void}
      */
     process: function process(message) {
-      utils.Spoiler.send(message)
+      Services.Spoiler.send(message)
     }
   }
 }

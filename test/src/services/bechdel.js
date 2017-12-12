@@ -1,7 +1,7 @@
 const assert = require('assert');
 const Message = require('../../mock/discord.js/structures/Message')
 
-const Bechdel = require('../../../libs/utils/bechdel.js')
+const Bechdel = require('../../../src/services/bechdel')
 
 describe('Bechdel', function() {
   describe('#send()', function() {

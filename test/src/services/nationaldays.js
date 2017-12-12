@@ -2,7 +2,7 @@ const assert = require('assert');
 const Message = require('../../mock/discord.js/structures/Message')
 
 var message = new Message('!nationaldays')
-const NationalDays = require('../../../libs/utils/nationaldays.js')
+const NationalDays = require('../../../src/services/nationaldays')
 
 describe('NationalDays', function() {
   describe('#send()', function() {
