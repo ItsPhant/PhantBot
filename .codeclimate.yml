@@ -1,0 +1,27 @@
+engines:
+  duplication:
+    enabled: true
+    config:
+      languages:
+      - javascript:
+  eslint:
+    enabled: true
+    config:
+      config: .eslintrc
+  nodesecurity:
+    enabled: true
+  ratings:
+    paths:
+      - "**/*.js"
+exclude_paths:
+- test/
+- .eslintrc
+- .gitattributes
+- .gitignore
+- .travis.yml
+- *.md
+- LICENSE
+- config.example.json
+- .inch.json
+- package-lock.json
+- package.json
