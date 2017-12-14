@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/ItsPhant/PhantBot/badge.svg?branch=master)](https://coveralls.io/github/ItsPhant/PhantBot?branch=master)
 [![Inline docs](http://inch-ci.org/github/ItsPhant/PhantBot.svg?branch=master)](http://inch-ci.org/github/ItsPhant/PhantBot)
 
-I guess this is a bot I made.
+PhantBot is a free multipurpose bot made for Discord.
 
 
 ## Installation

@@ -1,6 +1,6 @@
 {
   "name": "phantbot",
-  "version": "0.11.0-dev",
+  "version": "0.11.0-dev-2",
   "description": "Bot for Discord",
   "main": "index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "eslint": "eslint src index.js"
   },
   "author": "Ellie Phant <itsphant@gmail.com>",
-  "license": "GPL-3.0",
+  "license": "AGPL-3.0+",
   "repository": {
     "type": "git",
     "url": "https://github.com/ItsPhant/PhantBot.git"
