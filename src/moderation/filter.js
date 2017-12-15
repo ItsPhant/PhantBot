@@ -21,17 +21,18 @@ const Discord = require('discord.js')
 let settings
 let users
 
+const SECOND = 1000
+const MINUTE = 60 * SECOND
+const HOUR   = 60 * MINUTE
+const DAY    = 24 * HOUR
+const MONTH  = 30.4375 * DAY
 /**
  * Converts filter's length of time to milliseconds.
  * @param {Object} time Time object from filter settings
  * @returns {Number} Milliseconds the time is equal to.
  */
 function toDuration(time) {
-  const DAY    = 24 * hour
-  const HOUR   = 60 * hour
-  const MINUTE = 60 * second
-  const SECOND = 1000
-
+  let months = 0
   let days = 0
   let hours = 0
   let minutes = 0
@@ -39,13 +40,14 @@ function toDuration(time) {
   let milliseconds = 0
 
   try {
-    ({days, hours, minutes, seconds, milliseconds} = time)
+    ({months, days, hours, minutes, seconds, milliseconds} = time)
   } catch (e) {
     console.log(`Error: ${e.message}`)
   }
 
-  let length = days  * DAY +
-               hours * HOUR +
+  let length = months  * MONTH +
+               days    * DAY +
+               hours   * HOUR +
                minutes * MINUTE +
                seconds * SECOND +
                milliseconds
