@@ -3,8 +3,11 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++
   - mv config.example.json config.json
+  - npm install -g greenkeeper-lockfile@1
+before_script: greenkeeper-lockfile-update
 after_script:
   - npm run istanbul
   - npm run eslint
+  - greenkeeper-lockfile-upload
 node_js:
-  - "8"
+  - "9"
