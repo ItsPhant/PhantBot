@@ -16,14 +16,28 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module.exports = {
-  AddRole: require('./addRole'),
-  Ban:     require('./ban'),
-  Captcha: require('./captcha'),
-  Delete:  require('./delete'),
-  Filter:  require('./filter'),
-  Log:     require('./log'),
-  Mute:    require('./mute'),
-  Poll:    require('./poll'),
-  Warn:    require('./warn')
+/**
+ * Add all roles in role array to user.
+ * @param {User} user User to add roles to
+ * @param {Object} roles Role ids to add
+ * @returns {void}
+ */
+function addRole(user, roles) {
+  if (roles.isArray) {
+    for (const role in roles) {
+      try {
+        guildMembers[user].addRole(role)
+      } catch (e) {
+        console.error(`Error assigning role ${role}: ${e.message}`)
+      }
+    }
+  } else {
+    try {
+      guildMembers[user].addRole(roles)
+    } catch (e) {
+      console.error(`Error assigning role ${roles}: ${e.message}`)
+    }
+  }
 }
+
+exports.AddRole = addRole

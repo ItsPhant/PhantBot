@@ -16,14 +16,14 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module.exports = {
-  AddRole: require('./addRole'),
-  Ban:     require('./ban'),
-  Captcha: require('./captcha'),
-  Delete:  require('./delete'),
-  Filter:  require('./filter'),
-  Log:     require('./log'),
-  Mute:    require('./mute'),
-  Poll:    require('./poll'),
-  Warn:    require('./warn')
+/**
+ * Send warning for action.
+ * @param {Object} filter Content filter object
+ * @param {Message} message Message that had a match
+ * @returns {void}
+ */
+function warn(filter, message) {
+  sendMatchMessage(filter.onMatch.warn, message)
 }
+
+exports.Warn = warn

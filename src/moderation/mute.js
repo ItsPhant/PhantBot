@@ -17,11 +17,11 @@
  */
 
 /**
- * Module to mute given user.
+ * Mutes user given in command.
  * @param {Message} message The message that triggered this command
  * @returns {void}
  */
-exports.muteUser = message => {
+function muteUser(message) {
   let re = /<@!*(\d+)/g
   let id = re.exec(message.content.substring(5))[1]
   if (id) {
@@ -29,10 +29,41 @@ exports.muteUser = message => {
       if (value.name === 'mute' || value.name === 'muted') {
         guild.members.get(id).addRole(key)
       } else {
-        message.channel.send('Unable to find mute role (incorrect name).')
+        message.channel.send('Unable to find mute role.')
       }
     })
   } else {
     message.channel.send('No user was mentioned.')
   }
+}
+
+/**
+ * Mute user that sent message.
+ * @param {Object} filter Content filter object
+ * @param {Message} message Message that had a match
+ * @returns {void}
+ */
+function mute(filter, message) {
+  sendMatchMessage(filter.onMatch.mute, message)
+  let duration
+  try {
+    duration = toDuration(filter.punishments.muteTime)
+  } catch (e) {
+    duration = 0
+  }
+
+  if (filter.onMatch.mute.assignRole) {
+    addRoleArray(filter.onMatch.mute.assignRole)
+  } else {
+    // Try detecting mute role
+  }
+
+  if (duration !== 0) {
+    // Store date for unmute
+  }
+}
+
+module.exports = {
+  MuteUser: muteUser,
+  Mute: mute
 }

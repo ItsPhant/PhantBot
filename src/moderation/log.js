@@ -16,14 +16,21 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module.exports = {
-  AddRole: require('./addRole'),
-  Ban:     require('./ban'),
-  Captcha: require('./captcha'),
-  Delete:  require('./delete'),
-  Filter:  require('./filter'),
-  Log:     require('./log'),
-  Mute:    require('./mute'),
-  Poll:    require('./poll'),
-  Warn:    require('./warn')
+const Discord = require('discord.js')
+
+/**
+ * Send log for action.
+ * @param {Object} filter Content filter object
+ * @param {Message} message Message that had a match
+ * @returns {void}
+ */
+function log(filter, message) {
+  sendMatchMessage(filter.onMatch.log, message)
+
+  let channel = new Discord.Channel(settings.logChannel)
+  channel.send(`Rule ${rule} triggered in ${message.channel} by ` +
+               `${message.author.name} with message: ${message.content}`)
+
 }
+
+exports.Log = log

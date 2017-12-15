@@ -16,14 +16,22 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module.exports = {
-  AddRole: require('./addRole'),
-  Ban:     require('./ban'),
-  Captcha: require('./captcha'),
-  Delete:  require('./delete'),
-  Filter:  require('./filter'),
-  Log:     require('./log'),
-  Mute:    require('./mute'),
-  Poll:    require('./poll'),
-  Warn:    require('./warn')
+/**
+ * Substitutes variable markup in string with values.
+ * @param {Object} string String to replace text in
+ * @param {User} author Author to use for substitution
+ * @param {Channel} channel Channel to use for substitution
+ * @returns {string} String with replaced variables.
+ */
+function formatConfigString(string, author, channel) {
+  string = string
+    .replace('<Author>',`<@${author.id}>`)
+    .replace('<author>',`${author.username}`)
+    .replace('<channel>',`${channel.name}`)
+    .replace('\\<', '<')
+    .replace('\\>', '>')
+
+  return string
 }
+
+module.exports = formatConfigString
