@@ -1,0 +1,103 @@
+{
+  "contentFilters": [
+    "invites": {
+      "enabled": true,
+      "regexp": [
+        "",
+        ""
+      ],
+      "onMatch": {
+        "log": {
+          "enabled": false,
+          "message": ""
+        },
+        "warn": {
+          "enabled": false,
+          "message": ""
+        },
+        "delete": {
+          "enabled": false,
+          "message": ""
+        },
+        "mute": {
+          "enabled": false,
+          "message": "",
+          "assignRole": ""
+        },
+        "partialBan": {
+          "enabled": false,
+          "message": "",
+          "assignRole": ""
+        },
+        "tempBan": {
+          "enabled": false,
+          "message": "",
+          "days": ""
+        },
+        "ban": {
+          "enabled": false,
+          "message": "",
+          "days": ""
+        }
+      },
+      "punishments": {
+        "muteTime": {
+          "days": 0,
+          "hours": 0,
+          "minutes": 10,
+          "seconds": 0,
+          "milliseconds": 0
+        },
+        "partialBanTime": {
+          "days": 0,
+          "hours": 0,
+          "minutes": 10,
+          "seconds": 0,
+          "milliseconds": 0
+        },
+        "tempBanTime": {
+          "days": 0,
+          "hours": 0,
+          "minutes": 10,
+          "seconds": 0,
+          "milliseconds": 0
+        }
+      },
+      "rateLimit": {
+        "enabled": true,
+        "max": 5,
+        "reset": {
+          "days": 0,
+          "hours": 0,
+          "minutes": 10,
+          "seconds": 0,
+          "milliseconds": 0
+        }
+      },
+      "activeChannels": {
+        "enabled": false,
+        "list": []
+      },
+      "ignoredUsers": {
+        "enabled": false,
+        "list": []
+      },
+      "ignoredRoles": {
+        "enabled": false,
+        "list": []
+      },
+      "ignoredChannels": {
+        "enabled": false,
+        "list": []
+      },
+      "ignoredMatches": {
+        "enabled": false,
+        "list": []
+      },
+      "blockedMatches": {
+        "enabled": false,
+        "list": []
+      }
+    }
+  ]
+}

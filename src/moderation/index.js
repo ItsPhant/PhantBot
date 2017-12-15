@@ -18,6 +18,7 @@
 
 module.exports = {
   Captcha: require('./captcha'),
+  Filter: requrie('./filter'),
   Mute: require('./mute'),
   Poll: require('./poll')
 }
