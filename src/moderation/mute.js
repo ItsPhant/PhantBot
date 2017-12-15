@@ -16,6 +16,8 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const formatConfigString = require('../utilities/formatConfigString')
+
 /**
  * Mutes user given in command.
  * @param {Message} message The message that triggered this command
@@ -44,7 +46,9 @@ function muteUser(message) {
  * @returns {void}
  */
 function mute(filter, message) {
-  sendMatchMessage(filter.onMatch.mute, message)
+  message.channel.send(formatConfigString(
+    message.content, message.author, message.channel))
+
   let duration
   try {
     duration = toDuration(filter.punishments.muteTime)

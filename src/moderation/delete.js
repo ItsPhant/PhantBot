@@ -16,6 +16,8 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const formatConfigString = require('../utilities/formatConfigString')
+
 /**
  * Delete message.
  * @param {Object} filter Content filter object
@@ -23,7 +25,8 @@
  * @returns {void}
  */
 function deleteMessage(filter, message) {
-  sendMatchMessage(filter.onMatch.delete, message)
+  message.channel.send(formatConfigString(
+    message.content, message.author, message.channel))
   message.delete()
 }
 

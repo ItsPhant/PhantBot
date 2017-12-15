@@ -17,6 +17,7 @@
  */
 
 const Discord = require('discord.js')
+const formatConfigString = require('../utilities/formatConfigString')
 
 /**
  * Send log for action.
@@ -25,7 +26,8 @@ const Discord = require('discord.js')
  * @returns {void}
  */
 function log(filter, message) {
-  sendMatchMessage(filter.onMatch.log, message)
+  message.channel.send(formatConfigString(
+    message.content, message.author, message.channel))
 
   let channel = new Discord.Channel(settings.logChannel)
   channel.send(`Rule ${rule} triggered in ${message.channel} by ` +

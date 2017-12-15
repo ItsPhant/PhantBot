@@ -16,6 +16,8 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const formatConfigString = require('../utilities/formatConfigString')
+
 /**
  * Send warning for action.
  * @param {Object} filter Content filter object
@@ -23,7 +25,8 @@
  * @returns {void}
  */
 function warn(filter, message) {
-  sendMatchMessage(filter.onMatch.warn, message)
+  message.channel.send(formatConfigString(
+    message.content, message.author, message.channel))
 }
 
 exports.Warn = warn
