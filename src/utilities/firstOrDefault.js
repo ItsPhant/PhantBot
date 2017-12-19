@@ -22,7 +22,7 @@
  * @param {Object} defaultValue Default value to return
  * @returns {Object} The first element of a sequence, or a default value
  */
-module.exports = function firstOrDefault(object, defaultValue) {
+module.exports = function firstOrDefault (object, defaultValue) {
   if (defaultValue === undefined) {
     defaultValue = null
   }
@@ -35,7 +35,7 @@ module.exports = function firstOrDefault(object, defaultValue) {
     break
   }
 
-  return (!found) ?
-    defaultValue :
-    value
+  return ((!found)
+    ? defaultValue
+    : value)
 }

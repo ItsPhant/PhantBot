@@ -21,7 +21,7 @@
  * @param {string} string String to convert
  * @returns {string} Converted string
  */
-module.exports = function toTitleCase(string) {
+module.exports = function toTitleCase (string) {
   if (!string) {
     return 'Error parsing string.'
   }

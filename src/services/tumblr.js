@@ -23,14 +23,14 @@ const response = require('../utilities/response')
 const Help = require('./help.js')
 
 Help.document({
-  name:   'obscuresorrow',
-  use:    'Get a random entry from the Dictionary of Obscure Sorrows.',
+  name: 'obscuresorrow',
+  use: 'Get a random entry from the Dictionary of Obscure Sorrows.',
   syntax: ''
 })
 
 Help.document({
-  name:   'obscuwesowwow',
-  use:    'Get a wandom entwy fwom the Dictionawy of Obscuwe Sowwows.',
+  name: 'obscuwesowwow',
+  use: 'Get a wandom entwy fwom the Dictionawy of Obscuwe Sowwows.',
   syntax: '',
   hidden: true
 })
@@ -43,7 +43,7 @@ const apikey = config.bot.tumblr.apikey
  * @param {string} body The body of the post
  * @returns {string} Formatted post
  */
-function parsePost(title, body) {
+function parsePost (title, body) {
   let parsed = `**${title}:**\n\n`
 
   let text = he.decode(body)
@@ -62,12 +62,10 @@ function parsePost(title, body) {
  * @param {function} callback Function to run afterwards
  * @returns {void}
  */
-function doErrors(errorMessage, callback) {
+function doErrors (errorMessage, callback) {
   console.error(`Got error: ${errorMessage}`)
   if (callback !== undefined) {
     return callback(errorMessage)
-  } else {
-    return
   }
 }
 
@@ -77,7 +75,7 @@ function doErrors(errorMessage, callback) {
  * @param {function} callback Callback function for info
  * @returns {Number} Random post to get
  */
-function onEndInfo(rawData, callback) {
+function onEndInfo (rawData, callback) {
   try {
     const parsedData = JSON.parse(rawData)
     return callback(Math.floor(Math.random() *
@@ -94,8 +92,8 @@ function onEndInfo(rawData, callback) {
  * @param {function} callback The function to call after end finishes
  * @returns {void}
  */
-function doRequest(fullurl, onEnd, callback) {
-  https.get(fullurl, function onRequest(res) {
+function doRequest (fullurl, onEnd, callback) {
+  https.get(fullurl, function onRequest (res) {
     const {statusCode} = res
 
     let error = response.isValid(res,
@@ -110,12 +108,12 @@ function doRequest(fullurl, onEnd, callback) {
 
     res.setEncoding('utf8')
     let rawData = ''
-    res.on('data', function onData(chunk) {
+    res.on('data', function onData (chunk) {
       rawData += chunk
     })
 
     res.on('end', () => onEnd(rawData, callback))
-  }).on('error', function onError(e) {
+  }).on('error', function onError (e) {
     return doErrors(e.message, onError())
   })
 }
@@ -126,7 +124,7 @@ function doRequest(fullurl, onEnd, callback) {
  * @param {function} callback Called after info retrieved
  * @returns {void}
  */
-function getInfo(url, callback) {
+function getInfo (url, callback) {
   doRequest(`${url}/info?api_key=${apikey}`, onEndInfo, callback)
 }
 
@@ -136,7 +134,7 @@ function getInfo(url, callback) {
  * @param {function} callback Callback function for query
  * @returns {void}
  */
-function onEndPost(rawData, callback) {
+function onEndPost (rawData, callback) {
   try {
     let parsedData = JSON.parse(rawData)
     let post = parsedData.response.posts[0]
@@ -157,7 +155,7 @@ function onEndPost(rawData, callback) {
  * @param {function} callback Called after post retrieved
  * @returns {void}
  */
-function getPost(url, post, callback) {
+function getPost (url, post, callback) {
   let fullurl = `${url}/posts?api_key=${apikey}&offset=${post}`
   doRequest(fullurl, onEndPost, callback)
 }
@@ -171,7 +169,7 @@ function getPost(url, post, callback) {
 exports.getRandomPost = (blogName, callback) => {
   let baseurl = `https://api.tumblr.com/v2/blog/${blogName}.tumblr.com`
 
-  getInfo(baseurl, function onInfo(postNum) {
+  getInfo(baseurl, function onInfo (postNum) {
     getPost(baseurl, postNum, content => {
       return callback(content)
     })

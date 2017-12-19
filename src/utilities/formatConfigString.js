@@ -23,11 +23,11 @@
  * @param {Channel} channel Channel to use for substitution
  * @returns {string} String with replaced variables.
  */
-function formatConfigString(string, author, channel) {
+function formatConfigString (string, author, channel) {
   string = string
-    .replace('<Author>',`<@${author.id}>`)
-    .replace('<author>',`${author.username}`)
-    .replace('<channel>',`${channel.name}`)
+    .replace('<Author>', `<@${author.id}>`)
+    .replace('<author>', `${author.username}`)
+    .replace('<channel>', `${channel.name}`)
     .replace('\\<', '<')
     .replace('\\>', '>')
 

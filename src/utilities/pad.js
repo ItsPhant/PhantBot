@@ -23,7 +23,7 @@
  * @param {string} character Character to pad with
  * @returns {string} Padded string
  */
-module.exports = function pad(word, length, character) {
+module.exports = function pad (word, length, character) {
   if (word === undefined) {
     return
   }

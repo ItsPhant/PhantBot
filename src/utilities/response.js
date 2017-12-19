@@ -16,9 +16,9 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-exports.isValid = function isValid(res, statusCode, expectedType) {
+exports.isValid = function isValid (res, statusCode, expectedType) {
   const contentType = res.headers['content-type']
-  contentTypeRE = new RegExp('^' + expectedType)
+  let contentTypeRE = new RegExp('^' + expectedType)
 
   if (!statusCode) {
     return new Error('Request Failed.\n' +

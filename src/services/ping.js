@@ -19,8 +19,8 @@
 const Help = require('./help.js')
 
 Help.document({
-  name:   'ping',
-  use:    'Pong!',
+  name: 'ping',
+  use: 'Pong!',
   syntax: ''
 })
 

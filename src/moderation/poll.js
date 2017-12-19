@@ -24,7 +24,7 @@
  * @param {string} id ID of user to test against
  * @returns {void}
  */
-function tallyEmoji(tallies, a, b, id) {
+function tallyEmoji (tallies, a, b, id) {
   if (!tallies[a].includes(id)) {
     if (tallies[b].includes(id)) {
       tallies[b] = tallies[b].filter(x => x !== id)
@@ -37,9 +37,10 @@ function tallyEmoji(tallies, a, b, id) {
  * Collects emoji in poll for tally.
  * @param {ReactionEmoji} react The emoji being collected
  * @param {User} author The bot's user
+ * @param {Object} tallies Vote tallies
  * @returns {void}
  */
-function collectEmoji(react, author) {
+function collectEmoji (react, author, tallies) {
   react.users.forEach(user => {
     if (user.id !== author.id) {
       react.remove(user.id)
@@ -58,7 +59,7 @@ function collectEmoji(react, author) {
  * @param {Object} b Number of nays
  * @returns {string} Result
  */
-function getResult(a, b) {
+function getResult (a, b) {
   if (a.length > b.length) {
     return ':thumbsup:'
   } else {
@@ -70,15 +71,15 @@ function getResult(a, b) {
  * Finishes poll and sends results.
  * @param {Object} collected Reaction emoji collected
  * @param {string} suffix The command to be executed
+ * @param {Object} tallies Vote tallies
+ * @param {Message} message Message that started the poll
  * @returns {void}
  */
-function endPoll(collected, suffix) {
+function endPoll (collected, suffix, tallies, message) {
   message.channel.send(
     `:thumbsup:: ${tallies.yea.length}\n\n` +
     `:thumbsdown:: ${tallies.nay.length}\n\n` +
     `**result**: ${getResult(tallies.yea, tallies.nay)}`)
-
-  parseMessage(suffix)
 }
 
 /**
@@ -100,6 +101,7 @@ exports.startPoll = (message, suffix) => {
       reacts.on('collect', react => collectEmoji(react,
                                                  message.author,
                                                  tallies))
-      reacts.on('end', collected => endPoll(collected))
+      reacts.on('end', collected => endPoll(collected, suffix,
+                                            tallies, message))
     })
 }

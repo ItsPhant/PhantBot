@@ -20,20 +20,21 @@
  * Add all roles in role array to user.
  * @param {User} user User to add roles to
  * @param {Object} roles Role ids to add
+ * @param {Guild} guild Relevant guild
  * @returns {void}
  */
-function addRole(user, roles) {
+function addRole (user, roles, guild) {
   if (roles.isArray) {
     for (const role in roles) {
       try {
-        guildMembers[user].addRole(role)
+        guild.members.get(user.id).addRole(role)
       } catch (e) {
         console.error(`Error assigning role ${role}: ${e.message}`)
       }
     }
   } else {
     try {
-      guildMembers[user].addRole(roles)
+      guild.members.get(user.id).addRole(roles)
     } catch (e) {
       console.error(`Error assigning role ${roles}: ${e.message}`)
     }

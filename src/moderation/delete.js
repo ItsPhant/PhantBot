@@ -24,7 +24,7 @@ const formatConfigString = require('../utilities/formatConfigString')
  * @param {Message} message Message that had a match
  * @returns {void}
  */
-function deleteMessage(filter, message) {
+function deleteMessage (filter, message) {
   message.channel.send(formatConfigString(
     message.content, message.author, message.channel))
   message.delete()

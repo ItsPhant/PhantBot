@@ -18,12 +18,12 @@
 
 module.exports = {
   AddRole: require('./addRole'),
-  Ban:     require('./ban'),
+  Ban: require('./ban'),
   Captcha: require('./captcha'),
-  Delete:  require('./delete'),
-  Filter:  require('./filter'),
-  Log:     require('./log'),
-  Mute:    require('./mute'),
-  Poll:    require('./poll'),
-  Warn:    require('./warn')
+  Delete: require('./delete'),
+  Filter: require('./filter'),
+  Log: require('./log'),
+  Mute: require('./mute'),
+  Poll: require('./poll'),
+  Warn: require('./warn')
 }

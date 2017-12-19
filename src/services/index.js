@@ -22,6 +22,6 @@ module.exports = {
   Define: require('./define'),
   Help: require('./help'),
   NationalDays: require('./nationaldays'),
-  Ping:  require('./ping'),
+  Ping: require('./ping'),
   Tumblr: require('./tumblr')
 }

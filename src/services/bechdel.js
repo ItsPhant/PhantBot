@@ -22,8 +22,8 @@ const response = require('../utilities/response')
 const Help = require('./help.js')
 
 Help.document({
-  name:   'bechdel',
-  use:    'Gets the Bechdel Test score for a movie.',
+  name: 'bechdel',
+  use: 'Gets the Bechdel Test score for a movie.',
   syntax: '<movie>'
 })
 
@@ -32,7 +32,7 @@ Help.document({
  * @param {string|number} rating Rating of movie
  * @returns {string} Human-readable form of movie rating
  */
-function parseRating(rating) {
+function parseRating (rating) {
   let text = ''
   switch (rating) {
     case '0':
@@ -58,14 +58,14 @@ function parseRating(rating) {
  * @param {function} onError Callback function for error
  * @returns {void}
  */
-function onEnd(rawData, onSuccess, onError) {
+function onEnd (rawData, onSuccess, onError) {
   try {
-    let movies = '\`\`\`diff\n'
+    let movies = '```diff\n'
     const parsedData = JSON.parse(rawData)
     parsedData.forEach(movie => {
       movies += `+ ${movie.title}: ${parseRating(movie.rating)}\n`
     })
-    return onSuccess(movies += '\`\`\`')
+    return onSuccess(movies += '```')
   } catch (e) {
     console.error(e.message)
     return onError()
@@ -79,10 +79,10 @@ function onEnd(rawData, onSuccess, onError) {
  * @param {function} onError Callback function run on error
  * @returns {string} Results
  */
-function search(query, onSuccess, onError) {
+function search (query, onSuccess, onError) {
   let url = `http://bechdeltest.com/api/v1/getMoviesByTitle?title=${encodeURIComponent(query)}`
 
-  http.get(url, function onRequest(res) {
+  http.get(url, function onRequest (res) {
     const {statusCode} = res
 
     let error = response.isValid(res,
@@ -97,12 +97,12 @@ function search(query, onSuccess, onError) {
 
     res.setEncoding('utf8')
     let rawData = ''
-    res.on('data', function onData(chunk) {
+    res.on('data', function onData (chunk) {
       rawData += chunk
     })
 
     res.on('end', () => onEnd(rawData, onSuccess, onError))
-  }).on('error', function onError(e) {
+  }).on('error', function onError (e) {
     console.error(`Got error: ${e.message}`)
     return onError()
   })
@@ -118,7 +118,7 @@ function search(query, onSuccess, onError) {
 exports.send = (message, suffix, cb) => {
   if (!cb) {
     cb = () => {
-      return
+
     }
   }
 

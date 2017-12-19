@@ -24,7 +24,7 @@ const formatConfigString = require('../utilities/formatConfigString')
  * @param {Message} message Message that had a match
  * @returns {void}
  */
-function warn(filter, message) {
+function warn (filter, message) {
   message.channel.send(formatConfigString(
     message.content, message.author, message.channel))
 }

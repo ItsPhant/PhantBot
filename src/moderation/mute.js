@@ -17,15 +17,18 @@
  */
 
 const formatConfigString = require('../utilities/formatConfigString')
+const addRole = require('./addRole')
+const toDuration = require('../utilities/toDuration')
 
 /**
  * Mutes user given in command.
  * @param {Message} message The message that triggered this command
  * @returns {void}
  */
-function muteUser(message) {
+function muteUser (message) {
   let re = /<@!*(\d+)/g
   let id = re.exec(message.content.substring(5))[1]
+  let guild = message.author.guild
   if (id) {
     guild.roles.forEach((value, key) => {
       if (value.name === 'mute' || value.name === 'muted') {
@@ -45,7 +48,7 @@ function muteUser(message) {
  * @param {Message} message Message that had a match
  * @returns {void}
  */
-function mute(filter, message) {
+function mute (filter, message) {
   message.channel.send(formatConfigString(
     message.content, message.author, message.channel))
 
@@ -57,7 +60,7 @@ function mute(filter, message) {
   }
 
   if (filter.onMatch.mute.assignRole) {
-    addRoleArray(filter.onMatch.mute.assignRole)
+    addRole(message.author, filter.onMatch.mute.assignRole)
   } else {
     // Try detecting mute role
   }

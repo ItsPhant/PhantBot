@@ -16,51 +16,17 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const ban        = require('./ban').Ban
-const tempBan    = require('./ban').TempBan
+const ban = require('./ban').Ban
+const tempBan = require('./ban').TempBan
 const partialBan = require('./ban').PartialBan
-const deleteMsg  = require('./delete').Delete
-const log        = require('./log').Log
-const mute       = require('./mute').Mute
-const warn       = require('./warn').Warn
+const deleteMsg = require('./delete').Delete
+const log = require('./log').Log
+const mute = require('./mute').Mute
+const warn = require('./warn').Warn
+const toDuration = require('../utilities/toDuration')
 
 let settings
 let users
-
-const SECOND = 1000
-const MINUTE = 60 * SECOND
-const HOUR   = 60 * MINUTE
-const DAY    = 24 * HOUR
-const MONTH  = 30.4375 * DAY
-
-/**
- * Converts filter's length of time to milliseconds.
- * @param {Object} time Time object from filter settings
- * @returns {Number} Milliseconds the time is equal to.
- */
-function toDuration(time) {
-  let months = 0
-  let days = 0
-  let hours = 0
-  let minutes = 0
-  let seconds = 0
-  let milliseconds = 0
-
-  try {
-    ({months, days, hours, minutes, seconds, milliseconds} = time)
-  } catch (e) {
-    console.log(`Error: ${e.message}`)
-  }
-
-  let length = months  * MONTH +
-               days    * DAY +
-               hours   * HOUR +
-               minutes * MINUTE +
-               seconds * SECOND +
-               milliseconds
-
-  return length
-}
 
 /**
  * Procedure for what to do if a match is found.
@@ -68,7 +34,7 @@ function toDuration(time) {
  * @param {Message} message The message that had a match
  * @returns {void}
  */
-function onMatch(filter, message) {
+function onMatch (filter, message) {
   if (filter.onMatch.log.enabled) {
     log(filter, message)
   }
@@ -104,7 +70,7 @@ function onMatch(filter, message) {
  * @param {string} text Text from message
  * @returns {Array} Matched regexes in message text.
  */
-function matchRegexes(regexp, text) {
+function matchRegexes (regexp, text) {
   let matches = []
   if (regexp.isArray) {
     regexp.forEach(r => {
@@ -124,7 +90,7 @@ function matchRegexes(regexp, text) {
  * @param {User} user User data to modify
  * @returns {void}
  */
-function actOnMatches(filter, message, user) {
+function actOnMatches (filter, message, user) {
   for (const m in matchRegexes(filter.regexp, message.content)) {
     if (filter.allowedMatches.enabled &&
         filter.allowedMatches.list[m]) {
@@ -137,7 +103,7 @@ function actOnMatches(filter, message, user) {
       !filter.blockedMatches.list[m]) {
       continue
     } else if (filter.rateLimit.enabled &&
-               matches.length < filter.rateLimit.max &&
+               m.length < filter.rateLimit.max &&
                user.lastMatch + toDuration(filter.rateLimit.reset) <
                Date.now()) {
       break
@@ -154,9 +120,11 @@ function actOnMatches(filter, message, user) {
  * @param {Message} message Message to check
  * @returns {bool} Whether or not a match was found.
  */
-function match(message) {
+function match (message) {
   let author = message.author.id
   let user = users[author]
+  let guild = message.author.guild
+  let roles = guild.members.get(author).roles
 
   for (const filter in settings.contentFilters) {
     // Only use the filter if it is enabled.
@@ -166,7 +134,7 @@ function match(message) {
        filter.ignoredUsers.list[author]) ||
       // Skip ignored roles.
       (filter.ignoredRoles.enabled &&
-       filter.ignoredRoles.list[rolesByUser[author]]) ||
+       filter.ignoredRoles.list[roles]) ||
       // Skip ignored channels.
       (filter.ignoredChannels.enabled &&
        filter.ignoredChannels.list[message.channel]) ||
@@ -185,7 +153,7 @@ function match(message) {
  * @param {Message} message The message to check
  * @returns {void}
  */
-function filter(message) {
+function filter (message) {
   match(message.content)
 }
 

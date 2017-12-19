@@ -24,8 +24,8 @@ const $ = require('cheerio')
 const Help = require('./help.js')
 
 Help.document({
-  name:   'nationalday',
-  use:    'Display today\'s "National Days".',
+  name: 'nationalday',
+  use: 'Display today\'s "National Days".',
   syntax: ''
 })
 
@@ -36,7 +36,7 @@ const nationalUrl = 'https://nationaldaycalendar.com/latest-posts/'
  * @param {array} arr Array of national days
  * @returns {string} National day message
  */
-function arrayToSentence(arr) {
+function arrayToSentence (arr) {
   let last = toTitleCase(arr.pop())
 
   if (arr.length > 0) {
@@ -53,7 +53,7 @@ function arrayToSentence(arr) {
  * @param {function} failure Callback function for failure
  * @returns {void}
  */
-function onEnd(rawData, success, failure) {
+function onEnd (rawData, success, failure) {
   try {
     let today = $('.post', rawData).first()
     let days = $('h2.entry-title a', today).text().split(' – ')
@@ -76,8 +76,8 @@ function onEnd(rawData, success, failure) {
  * @param {function} failure Callback to run on failure
  * @returns {string} Result
  */
-function getMessage(success, failure) {
-  https.get(nationalUrl, function onRequest(res) {
+function getMessage (success, failure) {
+  https.get(nationalUrl, function onRequest (res) {
     const {statusCode} = res
 
     let error = response.isValid(res,
@@ -92,12 +92,12 @@ function getMessage(success, failure) {
 
     res.setEncoding('utf8')
     let rawData = ''
-    res.on('data', function onData(chunk) {
+    res.on('data', function onData (chunk) {
       rawData += chunk
     })
 
-    res.on('end', () => onEnd(rawData, success, failure) )
-  }).on('error', function onError(e) {
+    res.on('end', () => onEnd(rawData, success, failure))
+  }).on('error', function onError (e) {
     console.error(`Got error: ${e.message}`)
     return failure()
   })
@@ -112,7 +112,7 @@ function getMessage(success, failure) {
 exports.send = (message, cb) => {
   if (!cb) {
     cb = () => {
-      return
+
     }
   }
 
@@ -120,7 +120,6 @@ exports.send = (message, cb) => {
     days => {
       cb(message.channel.send(days))
     }, () => {
-      cb(message.channel.send('Error getting national days.'))
-    }
-  )
+    cb(message.channel.send('Error getting national days.'))
+  })
 }

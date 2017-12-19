@@ -25,15 +25,15 @@ let commands = {default: 'Unknown command'}
  * @param {Object} entry The command's help information
  * @returns {void}
  */
-function document(entry) {
+function document (entry) {
   commands[entry.name] = entry
 }
 
 exports.document = document
 
 document({
-  name:   'help',
-  use:    'Display this message, or help for a command.',
+  name: 'help',
+  use: 'Display this message, or help for a command.',
   syntax: '[command]'
 })
 
@@ -42,7 +42,7 @@ document({
  * @param {string} str Command name to compare to
  * @returns {string} Padded string
  */
-function pad(str) {
+function pad (str) {
   let length = 0
 
   for (const c in commands) {
@@ -62,13 +62,13 @@ exports.pad = pad
  * Lists commands as documented in each module.
  * @returns {string} List of commands
  */
-function getCommands() {
+function getCommands () {
   let pjson = require('../../package.json')
 
-  let list = '\`\`\`\n'
+  let list = '```\n'
   for (const c in commands) {
     if (c !== 'default' && !commands[c].hidden) {
-      list += `${pad(commands[c].name+':')}` +
+      list += `${pad(commands[c].name + ':')}` +
               ` ${commands[c].use}\n`
     }
   }
@@ -82,7 +82,7 @@ function getCommands() {
  * @param {Object} config The bot's config
  * @returns {string} Help for specified command
  */
-function getCommandHelp(c, config) {
+function getCommandHelp (c, config) {
   if (Object.keys(commands).includes(c)) {
     let begin = `\`\`\`${commands[c].name}:` +
                 ` ${commands[c].use}\n\n`

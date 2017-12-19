@@ -24,8 +24,8 @@ const toSentenceCase = require('../utilities/toSentenceCase')
 const Help = require('./help.js')
 
 Help.document({
-  name:   'define',
-  use:    'Define a word using the Pearson english dictionary.',
+  name: 'define',
+  use: 'Define a word using the Pearson english dictionary.',
   syntax: '<word>'
 })
 
@@ -36,7 +36,7 @@ let baseurl = 'http://api.pearson.com/v2/dictionaries/entries?headword='
  * @param {Object} body Response object
  * @returns {string} Human-readable definition
  */
-function parseBody(body) {
+function parseBody (body) {
   let definition = JSON.parse(body)
     .results[0]
     .senses[0]
@@ -55,7 +55,7 @@ function parseBody(body) {
  * @param {Message} message The message that triggered this command
  * @returns {void}
  */
-function onEnd(rawData, message) {
+function onEnd (rawData, message) {
   try {
     message.channel.send(parseBody(rawData))
   } catch (e) {
@@ -75,7 +75,7 @@ exports.send = (message, suffix) => {
 
   http.get(
     encodeURI(baseurl + encodeURIComponent(word)),
-    function onRequest(res) {
+    function onRequest (res) {
       const {statusCode} = res
 
       let error = response.isValid(res,
@@ -90,12 +90,12 @@ exports.send = (message, suffix) => {
 
       res.setEncoding('utf8')
       let rawData = ''
-      res.on('data', function onData(chunk) {
+      res.on('data', function onData (chunk) {
         rawData += chunk
       })
 
       res.on('end', () => onEnd(rawData, message))
-    }).on('error', function onError(e) {
-    console.error(`Got error: ${e.message}`)
-  })
+    }).on('error', function onError (e) {
+      console.error(`Got error: ${e.message}`)
+    })
 }

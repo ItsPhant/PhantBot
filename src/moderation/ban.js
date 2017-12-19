@@ -18,6 +18,7 @@
 
 const addRole = require('./addRole').AddRole
 const formatConfigString = require('../utilities/formatConfigString')
+const toDuration = require('../utilities/toDuration')
 
 /**
  * Ban user that sent message.
@@ -25,7 +26,7 @@ const formatConfigString = require('../utilities/formatConfigString')
  * @param {Message} message Message that had a match
  * @returns {void}
  */
-function partialBan(filter, message) {
+function partialBan (filter, message) {
   message.channel.send(formatConfigString(
     message.content, message.author, message.channel))
 
@@ -41,7 +42,9 @@ function partialBan(filter, message) {
    * remove from some channels, maybe just the channel the message was from.
    */
   if (filter.onMatch.partialBan.assignRole) {
-    addRole(filter.onMatch.partialBan.assignRole)
+    addRole(message.author,
+      filter.onMatch.partialBan.assignRole,
+      message.author.guild)
   } else {
     // Outta luck for now
   }
@@ -57,8 +60,10 @@ function partialBan(filter, message) {
  * @param {Message} message Message that had a match
  * @returns {void}
  */
-function tempBan(filter, message) {
-  sendMatchMessage(filter.onMatch.tempBan, message)
+function tempBan (filter, message) {
+  message.channel.send(formatConfigString(
+    message.content, message.author, message.channel))
+
   let duration = 0
   try {
     duration = toDuration(filter.punishments.tempBanTime)
@@ -72,7 +77,7 @@ function tempBan(filter, message) {
   }
 
   try {
-    guildMembers[message.author].ban(days)
+    message.author.guild.members.get(message.author.id).ban(days)
   } catch (e) {
 
   }
@@ -87,8 +92,9 @@ function tempBan(filter, message) {
  * @param {Message} message Message that had a match
  * @returns {void}
  */
-function ban(filter, message) {
-  sendMatchMessage(filter.onMatch.ban, message)
+function ban (filter, message) {
+  message.channel.send(formatConfigString(
+    message.content, message.author, message.channel))
 
   let days = 0
   if (filter.onMatch.ban.days) {
@@ -96,7 +102,7 @@ function ban(filter, message) {
   }
 
   try {
-    guildMembers[message.author].ban(days)
+    message.author.guild.members.get(message.author.id).ban(days)
   } catch (e) {
 
   }

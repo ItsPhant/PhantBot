@@ -26,7 +26,7 @@ const Discord = require('discord.js')
  * @param {Object} captcha The captcha for testing against
  * @returns {void}
  */
-function testAgainstCaptcha(client, message, trigger, captcha) {
+function testAgainstCaptcha (client, message, trigger, captcha) {
   if (message.author === trigger.author) {
     if (message.content === captcha.text()) {
       message.channel.send('Pass')

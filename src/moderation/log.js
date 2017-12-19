@@ -16,23 +16,24 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const Discord = require('discord.js')
 const formatConfigString = require('../utilities/formatConfigString')
 
 /**
  * Send log for action.
  * @param {Object} filter Content filter object
  * @param {Message} message Message that had a match
+ * @param {Snowflake} channelid ID of log channel
+ * @param {Guild} guild Guild this applies to
  * @returns {void}
  */
-function log(filter, message) {
+function log (filter, message, channelid, guild) {
   message.channel.send(formatConfigString(
     message.content, message.author, message.channel))
 
-  let channel = new Discord.Channel(settings.logChannel)
-  channel.send(`Rule ${rule} triggered in ${message.channel} by ` +
-               `${message.author.name} with message: ${message.content}`)
-
+  let rule = ''
+  guild.channels.get(channelid)
+    .send((`Rule ${rule} triggered in ${message.channel} by ` +
+           `${message.author.name} with message: ${message.content}`))
 }
 
 exports.Log = log
