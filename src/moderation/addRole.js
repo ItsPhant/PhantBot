@@ -41,4 +41,44 @@ function addRole (user, roles, guild) {
   }
 }
 
-exports.AddRole = addRole
+/**
+ * Add given role to user that sent message.
+ * @param {Message} message Message to parse and act on
+ * @param {string} prefix The bot's command prefix
+ * @returns {void}
+ */
+function addRoleGivenRole (message, prefix) {
+  let guild = message.guild
+  addRole(message.author,
+    guild.roles.get('name', message.content.substring(prefix.length + 5)),
+    guild)
+}
+
+/**
+ * Add given role to given user.
+ * @param {Message} message Message to parse and act on
+ * @returns {void}
+ */
+function addRoleGivenMention (message) {
+  let parts = message.content.split(' ')
+  let guild = message.guild
+
+  if (parts[2]) {
+    let userid = parts[2].match(/<[@!]{1,2}([\d]+)>/)
+    if (userid) {
+      addRole(userid,
+        guild.roles.get('name', parts[1]),
+        guild)
+    } else {
+      message.channel.send(`Could not assign role ${parts[1]} to user.`)
+    }
+  } else {
+    message.channel.send(`Could not assign role ${parts[1]} to user.`)
+  }
+}
+
+module.exports = {
+  AddRole: addRole,
+  addRoleGivenRole: addRoleGivenRole,
+  addRoleGivenMention: addRoleGivenMention
+}
