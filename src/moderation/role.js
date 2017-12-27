@@ -91,7 +91,7 @@ function removeRole (user, roles, guild) {
 }
 
 /**
- * Remove given role to user that sent message.
+ * Remove given role from user that sent message.
  * @param {Message} message Message to parse and act on
  * @param {string} prefix The bot's command prefix
  * @returns {void}
@@ -126,11 +126,29 @@ function removeRoleFromUser (message) {
   }
 }
 
+/**
+ * Toggle own role.
+ * @param {Message} message Message to parse and act on
+ * @param {string} prefix The bot's command prefix
+ * @returns {void}
+ */
+function toggleRole (message, prefix) {
+  let guild = message.guild
+  let author = message.author
+  let role = message.content.substring(prefix.length + 5)
+  if (guild.members.get(author.id).roles.find('name', role)) {
+    addRole(author, role, guild)
+  } else {
+    removeRole(author, role, guild)
+  }
+}
+
 module.exports = {
   addRole: addRole,
   addRoleToSelf: addRoleToSelf,
   addRoleToUser: addRoleToUser,
   removeRole: removeRole,
   removeRoleFromSelf: removeRoleFromSelf,
-  removeRoleFromUser: removeRoleFromUser
+  removeRoleFromUser: removeRoleFromUser,
+  toggleRole: toggleRole
 }
