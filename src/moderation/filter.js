@@ -24,6 +24,7 @@ const log = require('./log').Log
 const mute = require('./mute').Mute
 const warn = require('./warn').Warn
 const toDuration = require('../utilities/toDuration')
+const matchRegexes = require('../utilities/matchRegexes')
 
 let settings
 let users
@@ -62,25 +63,6 @@ function onMatch (filter, message) {
   if (filter.onMatch.ban.enabled) {
     ban(filter, message)
   }
-}
-
-/**
- * Check message for matching regexes.
- * @param {Array} regexp Regex strings to check
- * @param {string} text Text from message
- * @returns {Array} Matched regexes in message text.
- */
-function matchRegexes (regexp, text) {
-  let matches = []
-  if (regexp.isArray) {
-    regexp.forEach(r => {
-      matches = [...matches, ...text.match(r).slice(1)]
-    })
-  } else {
-    matches = text.match(regexp).slice(1)
-  }
-
-  return matches
 }
 
 /**
