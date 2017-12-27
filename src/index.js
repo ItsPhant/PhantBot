@@ -27,8 +27,8 @@ const fs = require('fs')
 /**
  * Modules
  */
-const Services = require('./src/services/')
-const Moderation = require('./src/moderation/')
+const Services = require('./services/')
+const Moderation = require('./moderation/')
 
 let prefix = ''
 let client
@@ -43,7 +43,7 @@ let commands = {
      * @param {string} suffix The command without the bot's prefix
      * @returns {void}
      */
-    process: function process(message, suffix) {
+    process: function process (message, suffix) {
       Services.Bechdel.send(message, suffix)
     }
   },
@@ -55,7 +55,7 @@ let commands = {
      * @param {string} suffix The command without the bot's prefix
      * @returns {void}
      */
-    process: function process(message, suffix) {
+    process: function process (message, suffix) {
       Services.Cat.send(message, suffix)
     }
   },
@@ -69,7 +69,7 @@ let commands = {
      * @param {Client} client The bot's Discord client
      * @returns {void}
      */
-    process: function process(message, suffix, config, client) {
+    process: function process (message, suffix, config, client) {
       Moderation.Captcha.send(message, client)
     }
   },
@@ -81,7 +81,7 @@ let commands = {
      * @param {string} suffix The command without the bot's prefix
      * @returns {void}
      */
-    process: function process(message, suffix) {
+    process: function process (message, suffix) {
       Services.Define.send(message, suffix)
     }
   },
@@ -93,7 +93,7 @@ let commands = {
      * @param {string} suffix The command without the bot's prefix
      * @returns {void}
      */
-    process: function process(message, suffix) {
+    process: function process (message, suffix) {
       Services.Help.send(message, suffix)
     }
   },
@@ -105,7 +105,7 @@ let commands = {
      * @param {string} suffix The command without the bot's prefix
      * @returns {void}
      */
-    process: function process(message, suffix) {
+    process: function process (message, suffix) {
       Moderation.Mute.send(message, suffix)
     }
   },
@@ -116,7 +116,7 @@ let commands = {
      * @param {string} message The message that triggered the command
      * @returns {void}
      */
-    process: function process(message) {
+    process: function process (message) {
       Services.NationalDays.send(message)
     }
   },
@@ -127,7 +127,7 @@ let commands = {
      * @param {string} message The message that triggered the command
      * @returns {void}
      */
-    process: function process(message) {
+    process: function process (message) {
       Services.Tumblr.getRandomPost('dictionaryofobscuresorrows', post => {
         message.channel.send(post)
       })
@@ -140,7 +140,7 @@ let commands = {
      * @param {string} message The message that triggered the command
      * @returns {void}
      */
-    process: function process(message) {
+    process: function process (message) {
       Services.Tumblr.getRandomPost('dictionaryofobscuresorrows', post => {
         message.channel.send(post.replace(/([lr])/gi, 'w'))
       })
@@ -156,7 +156,7 @@ let commands = {
      * @param {Client} client The bot's Discord client
      * @returns {void}
      */
-    process: function process(message, suffix, config, client) {
+    process: function process (message, suffix, config, client) {
       Services.Ping.send(message, client)
     }
   },
@@ -168,7 +168,7 @@ let commands = {
      * @param {string} suffix The command without the bot's prefix
      * @returns {void}
      */
-    process: function process(message, suffix) {
+    process: function process (message, suffix) {
       Moderation.Poll.startPoll(message, suffix.substring(5))
     }
   },
@@ -179,7 +179,7 @@ let commands = {
      * @param {string} message The message that triggered the command
      * @returns {void}
      */
-    process: function process(message) {
+    process: function process (message) {
       Services.Spoiler.send(message)
     }
   }
@@ -190,7 +190,7 @@ let commands = {
  * @param {Message} message Message to check for commands
  * @returns {void}
  */
-function parseMessage(message) {
+function parseMessage (message) {
   if (message.content.startsWith(prefix)) {
     let msg = message.content.toLowerCase().substring(prefix.length)
     let cmd = message.content.split(' ')[0].substring(prefix.length)
@@ -205,8 +205,8 @@ function parseMessage(message) {
  * Register events for bot's client.
  * @returns {void}
  */
-function registerEvents() {
-  client.on('ready', function onReady() {
+function registerEvents () {
+  client.on('ready', function onReady () {
     console.log(
       `Logged in as ${client.user.username} - ${client.user.id}\n`)
     client.user.setPresence({
@@ -223,7 +223,7 @@ function registerEvents() {
 /**
  * Read config and initialize bot.
  */
-fs.readFile('./config.json', 'utf8', function onRead(err, data) {
+fs.readFile('./config.json', 'utf8', function onRead (err, data) {
   config = JSON.parse(data)
   prefix = config.bot.prefix
 
@@ -237,4 +237,8 @@ fs.readFile('./config.json', 'utf8', function onRead(err, data) {
   spoilerbot.connect()
 
   registerEvents()
+
+  if (err) {
+    console.error(err.message)
+  }
 })

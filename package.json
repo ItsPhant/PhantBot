@@ -4,8 +4,8 @@
   "description": "Bot for Discord",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "firejail": "firejail node index.js",
+    "start": "node ./src/index.js",
+    "firejail": "firejail node ./src/index.js",
     "test": "mocha --recursive",
     "istanbul": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
     "eslint": "eslint src index.js"
