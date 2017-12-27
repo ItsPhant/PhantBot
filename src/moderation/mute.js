@@ -17,7 +17,7 @@
  */
 
 const formatConfigString = require('../utilities/formatConfigString')
-const addRole = require('./addRole')
+const addRole = require('./role').addRole
 const toDuration = require('../utilities/toDuration')
 
 /**

@@ -16,7 +16,7 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-const addRole = require('./addRole').AddRole
+const addRole = require('./role').addRole
 const formatConfigString = require('../utilities/formatConfigString')
 const toDuration = require('../utilities/toDuration')
 

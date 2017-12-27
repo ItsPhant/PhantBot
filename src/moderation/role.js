@@ -78,7 +78,7 @@ function addRoleGivenMention (message) {
 }
 
 module.exports = {
-  AddRole: addRole,
+  addRole: addRole,
   addRoleGivenRole: addRoleGivenRole,
   addRoleGivenMention: addRoleGivenMention
 }

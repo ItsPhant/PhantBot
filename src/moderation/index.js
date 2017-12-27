@@ -17,7 +17,6 @@
  */
 
 module.exports = {
-  AddRole: require('./addRole'),
   Ban: require('./ban'),
   Captcha: require('./captcha'),
   Delete: require('./delete'),
@@ -25,5 +24,6 @@ module.exports = {
   Log: require('./log'),
   Mute: require('./mute'),
   Poll: require('./poll'),
+  Role: require('./role'),
   Warn: require('./warn')
 }
