@@ -24,20 +24,14 @@
  * @returns {void}
  */
 function addRole (user, roles, guild) {
-  if (roles.isArray) {
-    for (const role in roles) {
-      try {
-        guild.members.get(user.id).addRole(role)
-      } catch (e) {
-        console.error(`Error assigning role ${role}: ${e.message}`)
-      }
-    }
-  } else {
-    try {
+  try {
+    if (roles.isArray) {
+      guild.members.get(user.id).addRoles(roles)
+    } else {
       guild.members.get(user.id).addRole(roles)
-    } catch (e) {
-      console.error(`Error assigning role ${roles}: ${e.message}`)
     }
+  } catch (e) {
+    console.error(`Error assigning role ${roles}: ${e.message}`)
   }
 }
 
@@ -47,7 +41,7 @@ function addRole (user, roles, guild) {
  * @param {string} prefix The bot's command prefix
  * @returns {void}
  */
-function addRoleGivenRole (message, prefix) {
+function addRoleToSelf (message, prefix) {
   let guild = message.guild
   addRole(message.author,
     guild.roles.get('name', message.content.substring(prefix.length + 5)),
@@ -59,7 +53,7 @@ function addRoleGivenRole (message, prefix) {
  * @param {Message} message Message to parse and act on
  * @returns {void}
  */
-function addRoleGivenMention (message) {
+function addRoleToUser (message) {
   let parts = message.content.split(' ')
   let guild = message.guild
 
@@ -77,8 +71,66 @@ function addRoleGivenMention (message) {
   }
 }
 
+/**
+ * Removes all roles in role array from user.
+ * @param {User} user User to remove roles from
+ * @param {object} roles Role ids to add
+ * @param {Guild} guild Relevant guild
+ * @returns {void}
+ */
+function removeRole (user, roles, guild) {
+  try {
+    if (roles.isArray) {
+      guild.members.get(user.id).removeRoles(roles)
+    } else {
+      guild.members.get(user.id).removeRole(roles)
+    }
+  } catch (e) {
+    console.error(`Error removing role ${roles}: ${e.message}`)
+  }
+}
+
+/**
+ * Remove given role to user that sent message.
+ * @param {Message} message Message to parse and act on
+ * @param {string} prefix The bot's command prefix
+ * @returns {void}
+ */
+function removeRoleFromSelf (message, prefix) {
+  let guild = message.guild
+  removeRole(message.author,
+    guild.roles.get('name', message.content.substring(prefix.length + 5)),
+    guild)
+}
+
+/**
+ * Remove given role from given user.
+ * @param {Message} message Message to parse and act on
+ * @returns {void}
+ */
+function removeRoleFromUser (message) {
+  let parts = message.content.split(' ')
+  let guild = message.guild
+
+  if (parts[2]) {
+    let userid = parts[2].match(/<[@!]{1,2}([\d]+)>/)
+    if (userid) {
+      removeRole(userid,
+        guild.roles.get('name', parts[1]),
+        guild)
+    } else {
+      message.channel.send(`Could not remove role ${parts[1]} from user.`)
+    }
+  } else {
+    message.channel.send(`Could not remove role ${parts[1]} from user.`)
+  }
+}
+
 module.exports = {
   addRole: addRole,
-  addRoleGivenRole: addRoleGivenRole,
-  addRoleGivenMention: addRoleGivenMention
+  addRoleToSelf: addRoleToSelf,
+  addRoleToUser: addRoleToUser,
+  removeRole: removeRole,
+  removeRoleFromSelf: removeRoleFromSelf,
+  removeRoleFromUser: removeRoleFromUser
 }
