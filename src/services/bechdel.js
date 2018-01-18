@@ -24,7 +24,8 @@ const Help = require('./help.js')
 Help.document({
   name: 'bechdel',
   use: 'Gets the Bechdel Test score for a movie.',
-  syntax: '<movie>'
+  syntax: '<movie>',
+  type: 'service'
 })
 
 /**

@@ -26,7 +26,8 @@ const Help = require('./help.js')
 Help.document({
   name: 'define',
   use: 'Define a word using the Pearson english dictionary.',
-  syntax: '<word>'
+  syntax: '<word>',
+  type: 'service'
 })
 
 let baseurl = 'http://api.pearson.com/v2/dictionaries/entries?headword='

@@ -16,6 +16,15 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const Help = require('../services/help')
+
+Help.document({
+  name: 'warn',
+  use: 'Warn user for something.',
+  syntax: '<user> [reason]',
+  type: 'moderation'
+})
+
 const formatConfigString = require('../utilities/formatConfigString')
 
 /**
@@ -29,4 +38,31 @@ function warn (filter, message) {
     message.content, message.author, message.channel))
 }
 
-exports.Warn = warn
+/**
+ * Warn mentioned user.
+ * @param {Message} message Message to respond to
+ * @param {string} suffix Command without prefix
+ * @returns {void}
+ */
+function send (message, suffix) {
+  let parts = suffix.split(' ')
+  let mention = parts[1]
+  let reason = ''
+
+  if (parts[2]) {
+    reason = parts.slice(2).join(' ')
+  }
+
+  if (reason !== '') {
+    message.channel.send(`${mention}, you have been warned by ` +
+                         `<@!${message.author.id}> for ${reason}.`)
+  } else {
+    message.channel.send(`${mention}, you have been warned by ` +
+                         `<@!${message.author.id}>.`)
+  }
+}
+
+module.exports = {
+  Warn: warn,
+  send: send
+}

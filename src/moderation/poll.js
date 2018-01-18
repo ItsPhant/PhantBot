@@ -16,6 +16,15 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const Help = require('../services/help')
+
+Help.document({
+  name: 'poll',
+  use: 'Poll users to run an administrative command',
+  syntax: '<command>',
+  type: 'moderation'
+})
+
 /**
  * Tallies emoji for poll.
  * @param {Object} tallies Tally object to append to

@@ -21,7 +21,8 @@ const Help = require('./help.js')
 Help.document({
   name: 'ping',
   use: 'Pong!',
-  syntax: ''
+  syntax: '',
+  type: 'service'
 })
 
 /**
@@ -32,6 +33,6 @@ Help.document({
  * @param {Client} client The bot's Discord client
  * @returns {void}
  */
-exports.send = (message, suffix, config, client) => {
-  message.channel.send(`pong! (${Math.floor(client.ping)}ms)`)
+exports.send = (message, ping) => {
+  message.channel.send(`pong! (${Math.floor(ping)}ms)`)
 }

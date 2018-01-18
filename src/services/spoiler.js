@@ -21,7 +21,8 @@ const Help = require('./help.js')
 Help.document({
   name: 'spoiler',
   use: 'Hide text in a gif (desktop only)',
-  syntax: '/o<topic>:spoiler:<content>',
+  syntax: '<topic>:spoiler:<content>',
+  type: 'service',
   onlySyntax: true
 })
 

@@ -22,6 +22,7 @@ Help.document({
   name: '/hcat',
   use: 'Repeats and deletes original message.',
   syntax: '<message>',
+  type: 'service',
   hidden: true
 })
 

@@ -16,6 +16,15 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+const Help = require('../services/help')
+
+Help.document({
+  name: 'role',
+  use: 'Manage roles for users.',
+  syntax: '<role> [user mention]',
+  type: 'moderation'
+})
+
 /**
  * Add all roles in role array to user.
  * @param {User} user User to add roles to

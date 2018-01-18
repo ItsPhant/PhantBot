@@ -157,7 +157,7 @@ let commands = {
      * @returns {void}
      */
     process: function process (message, suffix, config, client) {
-      Services.Ping.send(message, client)
+      Services.Ping.send(message, client.ping)
     }
   },
   poll: {
@@ -182,6 +182,18 @@ let commands = {
     process: function process (message) {
       Services.Spoiler.send(message)
     }
+  },
+  warn: {
+    /**
+     * Processes warn command
+     * @see Warn#send()
+     * @param {string} message The message that triggered the command
+     * @param {string} suffix The command without the bot's prefix
+     * @returns {void}
+     */
+    process: function process (message, suffix) {
+      Moderation.Warn.send(message, suffix)
+    }
   }
 }
 
@@ -192,11 +204,11 @@ let commands = {
  */
 function parseMessage (message) {
   if (message.content.startsWith(prefix)) {
-    let msg = message.content.toLowerCase().substring(prefix.length)
+    let suffix = message.content.toLowerCase().substring(prefix.length)
     let cmd = message.content.split(' ')[0].substring(prefix.length)
 
     if (commands[cmd]) {
-      commands[cmd].process(message, msg, config, client)
+      commands[cmd].process(message, suffix, config, client)
     }
   }
 }
@@ -224,6 +236,10 @@ function registerEvents () {
  * Read config and initialize bot.
  */
 fs.readFile('./config.json', 'utf8', function onRead (err, data) {
+  if (err) {
+    console.error(err.message)
+  }
+
   config = JSON.parse(data)
   prefix = config.bot.prefix
 
@@ -237,8 +253,4 @@ fs.readFile('./config.json', 'utf8', function onRead (err, data) {
   spoilerbot.connect()
 
   registerEvents()
-
-  if (err) {
-    console.error(err.message)
-  }
 })

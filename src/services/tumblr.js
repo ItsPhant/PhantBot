@@ -25,13 +25,15 @@ const Help = require('./help.js')
 Help.document({
   name: 'obscuresorrow',
   use: 'Get a random entry from the Dictionary of Obscure Sorrows.',
-  syntax: ''
+  syntax: '',
+  type: 'service'
 })
 
 Help.document({
   name: 'obscuwesowwow',
   use: 'Get a wandom entwy fwom the Dictionawy of Obscuwe Sowwows.',
   syntax: '',
+  type: 'service',
   hidden: true
 })
 

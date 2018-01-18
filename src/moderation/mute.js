@@ -19,20 +19,35 @@
 const formatConfigString = require('../utilities/formatConfigString')
 const addRole = require('./role').addRole
 const toDuration = require('../utilities/toDuration')
+const Help = require('../services/help')
+
+Help.document({
+  name: 'mute',
+  use: 'Mute user.',
+  syntax: '<user> [reason]',
+  type: 'moderation'
+})
 
 /**
  * Mutes user given in command.
  * @param {Message} message The message that triggered this command
  * @returns {void}
  */
-function muteUser (message) {
+function muteUser (message, suffix, reason) {
   let re = /<@!*(\d+)/g
-  let id = re.exec(message.content.substring(5))[1]
+  let id = re.exec(suffix.substring(5))[1]
   let guild = message.author.guild
   if (id) {
     guild.roles.forEach((value, key) => {
       if (value.name === 'mute' || value.name === 'muted') {
         guild.members.get(id).addRole(key)
+        if (reason === '') {
+          message.channel.send(`<@!${id}>, you have been muted by ` +
+                               `<@!${message.author.id}> for ${reason}.`)
+        } else {
+          message.channel.send(`<@!${id}>, you have been muted by ` +
+                               `<@!${message.author.id}>.`)
+        }
       } else {
         message.channel.send('Unable to find mute role.')
       }
@@ -70,7 +85,25 @@ function mute (filter, message) {
   }
 }
 
+/**
+ * Mute mentioned user.
+ * @param {Message} message Message to respond to
+ * @param {string} suffix Command without prefix
+ * @returns {void}
+ */
+function send (message, suffix) {
+  let parts = suffix.split(' ')
+  let reason = ''
+
+  if (parts[2]) {
+    reason = parts.slice(2).join(' ')
+  }
+
+  muteUser(message, suffix, reason)
+}
+
 module.exports = {
   MuteUser: muteUser,
-  Mute: mute
+  Mute: mute,
+  send: send
 }

@@ -26,7 +26,8 @@ const Help = require('./help.js')
 Help.document({
   name: 'nationalday',
   use: 'Display today\'s "National Days".',
-  syntax: ''
+  syntax: '',
+  type: 'service'
 })
 
 const nationalUrl = 'https://nationaldaycalendar.com/latest-posts/'

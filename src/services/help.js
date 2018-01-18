@@ -34,7 +34,8 @@ exports.document = document
 document({
   name: 'help',
   use: 'Display this message, or help for a command.',
-  syntax: '[command]'
+  syntax: '[command]',
+  type: 'service'
 })
 
 /**
@@ -58,6 +59,10 @@ function pad (str) {
 
 exports.pad = pad
 
+function sortCommands (commands) {
+  return commands.split('\n').sort().join('\n')
+}
+
 /**
  * Lists commands as documented in each module.
  * @returns {string} List of commands
@@ -65,15 +70,39 @@ exports.pad = pad
 function getCommands () {
   let pjson = require('../../package.json')
 
-  let list = '```\n'
+  let list = {
+    moderation: '',
+    service: '',
+    other: ''
+  }
+
   for (const c in commands) {
     if (c !== 'default' && !commands[c].hidden) {
-      list += `${pad(commands[c].name + ':')}` +
-              ` ${commands[c].use}\n`
+      let entry = `${pad(commands[c].name + ':')}` +
+                  ` ${commands[c].use}\n`
+
+      switch (commands[c].type) {
+        case 'service':
+          list.service += entry
+          break
+        case 'moderation':
+          list.moderation += entry
+          break
+        default:
+          list.other += entry
+      }
     }
   }
 
-  return list + `\nPhantBot Version ${pjson.version}\n\`\`\``
+  list.forEach(entry => sortCommands(entry))
+
+  let output = '```\n' +
+    `Service Commands:\n\n ${list.service}\n` +
+    `Moderation Commands:\n\n ${list.moderation}\n` +
+    list.other === '' ? '' : `Other Commands:\n\n ${list.other}` +
+    `\n\nPhantBot Version ${pjson.version}\n\`\`\``
+
+  return output
 }
 
 /**

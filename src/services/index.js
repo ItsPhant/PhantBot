@@ -23,5 +23,6 @@ module.exports = {
   Help: require('./help'),
   NationalDays: require('./nationaldays'),
   Ping: require('./ping'),
+  Spoiler: require('./spoiler'),
   Tumblr: require('./tumblr')
 }
