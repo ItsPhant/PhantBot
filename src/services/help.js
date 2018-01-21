@@ -1,6 +1,6 @@
 /**
  * PhantBot is a free multipurpose bot made for Discord.
- * Copyright (C) 2017  Ellie Phant
+ * Copyright (C) 2018  Ellie Phant
  *
  * PhantBot is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
