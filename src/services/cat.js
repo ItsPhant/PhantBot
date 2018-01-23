@@ -19,7 +19,7 @@
 const Help = require('./help.js')
 
 Help.document({
-  name: '/hcat',
+  name: 'cat',
   use: 'Repeats and deletes original message.',
   syntax: '<message>',
   type: 'service',
