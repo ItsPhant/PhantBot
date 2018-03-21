@@ -20,7 +20,6 @@
 /**
  * Requires
  */
-const SpoilerBot = require('discord-spoiler-bot')
 const Discord = require('discord.js')
 const fs = require('fs')
 
@@ -248,9 +247,6 @@ fs.readFile('./config/bot.json', 'utf8', function onRead (err, data) {
   })
 
   client.login(config.bot.token)
-
-  spoilerbot = new SpoilerBot({client: client})
-  spoilerbot.connect()
 
   registerEvents()
 })
