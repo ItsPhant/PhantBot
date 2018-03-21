@@ -5,9 +5,7 @@ engines:
       languages:
       - javascript:
   eslint:
-    enabled: true
-    config:
-      config: .eslintrc
+    enabled: false
   nodesecurity:
     enabled: true
   ratings:
