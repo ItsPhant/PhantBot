@@ -235,7 +235,7 @@ function registerEvents () {
 /**
  * Read config and initialize bot.
  */
-fs.readFile('./config.json', 'utf8', function onRead (err, data) {
+fs.readFile('./config/bot.json', 'utf8', function onRead (err, data) {
   if (err) {
     console.error(err.message)
   }
