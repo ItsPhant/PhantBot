@@ -19,7 +19,8 @@ exclude_paths:
 - .gitattributes
 - .gitignore
 - .travis.yml
-- *.md
+- CODE_OF_CONDUCT.md
+- README.md
 - LICENSE
 - config.example.json
 - .inch.json
