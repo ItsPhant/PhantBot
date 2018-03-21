@@ -31,101 +31,44 @@ const Moderation = require('./moderation/')
 
 let prefix = ''
 let client
-let spoilerbot
 let config = {}
 let commands = {
   bechdel: {
-    /**
-     * Processes bechdel test command
-     * @see Bechdel#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @returns {void}
-     */
     process: function process (message, suffix) {
       Services.Bechdel.send(message, suffix)
     }
   },
   cat: {
-    /**
-     * Processes cat command
-     * @see Cat#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @returns {void}
-     */
     process: function process (message, suffix) {
       Services.Cat.send(message, suffix)
     }
   },
   captcha: {
-    /**
-     * Processes captcha command
-     * @see Captcha#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @param {Object} config The bot's config
-     * @param {Client} client The bot's Discord client
-     * @returns {void}
-     */
     process: function process (message, suffix, config, client) {
       Moderation.Captcha.send(message, client)
     }
   },
   define: {
-    /**
-     * Processes define command
-     * @see Define#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @returns {void}
-     */
     process: function process (message, suffix) {
       Services.Define.send(message, suffix)
     }
   },
   help: {
-    /**
-     * Processes help command
-     * @see Help#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @returns {void}
-     */
     process: function process (message, suffix) {
       Services.Help.send(message, suffix)
     }
   },
   mute: {
-    /**
-     * Processes mute command
-     * @see Mute#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @returns {void}
-     */
     process: function process (message, suffix) {
       Moderation.Mute.send(message, suffix)
     }
   },
   nationalday: {
-    /**
-     * Processes national day command
-     * @see NationalDays#send()
-     * @param {string} message The message that triggered the command
-     * @returns {void}
-     */
     process: function process (message) {
       Services.NationalDays.send(message)
     }
   },
   obscuresorrow: {
-    /**
-     * Processes obscure sorrow command
-     * @see Tumblr#send()
-     * @param {string} message The message that triggered the command
-     * @returns {void}
-     */
     process: function process (message) {
       Services.Tumblr.getRandomPost('dictionaryofobscuresorrows', post => {
         message.channel.send(post)
@@ -133,12 +76,6 @@ let commands = {
     }
   },
   obscuwesowwow: {
-    /**
-     * Pwocesses obscuwe sowwow command
-     * @see Tumblr#send()
-     * @param {string} message The message that triggered the command
-     * @returns {void}
-     */
     process: function process (message) {
       Services.Tumblr.getRandomPost('dictionaryofobscuresorrows', post => {
         message.channel.send(post.replace(/([lr])/gi, 'w'))
@@ -146,50 +83,18 @@ let commands = {
     }
   },
   ping: {
-    /**
-     * Processes ping command
-     * @see Ping#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @param {Object} config The bot's config
-     * @param {Client} client The bot's Discord client
-     * @returns {void}
-     */
     process: function process (message, suffix, config, client) {
       Services.Ping.send(message, client.ping)
     }
   },
   poll: {
-    /**
-     * Processes poll command
-     * @see Poll#startPoll()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @returns {void}
-     */
     process: function process (message, suffix) {
       Moderation.Poll.startPoll(message, suffix.substring(5))
     }
   },
-  spoiler: {
-    /**
-     * Processes spoiler command
-     * @see Spoiler#send()
-     * @param {string} message The message that triggered the command
-     * @returns {void}
-     */
-    process: function process (message) {
-      Services.Spoiler.send(message)
     }
   },
   warn: {
-    /**
-     * Processes warn command
-     * @see Warn#send()
-     * @param {string} message The message that triggered the command
-     * @param {string} suffix The command without the bot's prefix
-     * @returns {void}
-     */
     process: function process (message, suffix) {
       Moderation.Warn.send(message, suffix)
     }
