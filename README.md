@@ -14,9 +14,8 @@ PhantBot is a free multipurpose bot made for Discord.
 
 **Requirements**
 
- - Install node-canvas dependencies: `libcairo2-dev libjpeg8-dev libpango1.0-dev libgif-dev build-essential g++`
  - Install npm packages with `npm i`
- - Create config file from `config.example.json`
+ - Update `config` folder to your liking
  - Run bot with `npm start`
 
 ## License
