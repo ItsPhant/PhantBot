@@ -1,0 +1,10 @@
+{
+  "bot": {
+    "token": "<token goes here>",
+    "prefix": "!",
+    "disabledEvents": ["TYPING_START"],
+    "tumblr": {
+      "apikey": "<consumer_key goes here>"
+    }
+  }
+}
