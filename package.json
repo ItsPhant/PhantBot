@@ -7,8 +7,7 @@
     "start": "node ./src/index.js",
     "firejail": "firejail node ./src/index.js",
     "test": "mocha --recursive",
-    "istanbul": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage",
-    "eslint": "eslint src index.js"
+    "istanbul": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- --recursive -R spec && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage"
   },
   "author": "Ellie Phant <itsphant@gmail.com>",
   "license": "AGPL-3.0+",
