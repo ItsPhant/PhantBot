@@ -16,14 +16,8 @@
  * along with PhantBot.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-module.exports = {
-  Bechdel: require('./bechdel'),
-  Cat: require('./cat'),
-  Convert: require('./convert'),
-  Define: require('./define'),
-  Help: require('./help'),
-  NationalDays: require('./nationaldays'),
-  Ping: require('./ping'),
-  Spoiler: require('./spoiler'),
-  Tumblr: require('./tumblr')
+module.exports = (collection, property, value) => {
+  return collection.find(val => {
+    return val[property].toLowerCase() === value.toLowerCase()
+  })
 }

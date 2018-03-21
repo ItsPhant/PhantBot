@@ -17,13 +17,8 @@
  */
 
 module.exports = {
-  Bechdel: require('./bechdel'),
-  Cat: require('./cat'),
-  Convert: require('./convert'),
-  Define: require('./define'),
-  Help: require('./help'),
-  NationalDays: require('./nationaldays'),
-  Ping: require('./ping'),
-  Spoiler: require('./spoiler'),
-  Tumblr: require('./tumblr')
+  addRank: require('./addRank'),
+  delRank: require('./delRank'),
+  rank: require('./rank'),
+  ranks: require('./ranks')
 }

@@ -33,6 +33,11 @@ let prefix = ''
 let client
 let config = {}
 let commands = {
+  addrank: {
+    process: function process (message, suffix, config, client) {
+      Modules.Ranks.addRank(message, suffix, config, client)
+    }
+  },
   bechdel: {
     process: function process (message, suffix) {
       Services.Bechdel.send(message, suffix)
@@ -48,9 +53,19 @@ let commands = {
       Moderation.Captcha.send(message, client)
     }
   },
+  convert: {
+    process: function process (message, suffix) {
+      Services.Convert.send(message, suffix)
+    }
+  },
   define: {
     process: function process (message, suffix) {
       Services.Define.send(message, suffix)
+    }
+  },
+  delrank: {
+    process: function process (message, suffix, config, client) {
+      Modules.Ranks.delRank(message, suffix, config, client)
     }
   },
   help: {
@@ -92,8 +107,16 @@ let commands = {
       Moderation.Poll.startPoll(message, suffix.substring(5))
     }
   },
+  rank: {
+    process: function process (message, suffix, config, client) {
+      Modules.Ranks.rank(message, suffix, config, client)
     }
   },
+  ranks: {
+    process: function process (message, suffix, config) {
+      Moderation.Ranks.ranks(message, suffix, config)
+    }
+  }
   warn: {
     process: function process (message, suffix) {
       Moderation.Warn.send(message, suffix)

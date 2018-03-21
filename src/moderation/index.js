@@ -24,6 +24,6 @@ module.exports = {
   Log: require('./log'),
   Mute: require('./mute'),
   Poll: require('./poll'),
-  Role: require('./role'),
+  Ranks: require('./ranks'),
   Warn: require('./warn')
 }
