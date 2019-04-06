@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/ItsPhant/PhantBot#readme",
   "dependencies": {
-    "cheerio": "^1.0.0-rc.2",
+    "cheerio": "1.0.0-rc.2",
     "discord.js": "^11.2.1",
     "he": "^1.1.1"
   },
